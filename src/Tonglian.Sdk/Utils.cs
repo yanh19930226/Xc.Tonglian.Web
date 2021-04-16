@@ -63,32 +63,6 @@ namespace Tonglian.Sdk
             //return result.ToLower();
         }
 
-        /// <summary>
-        ///HMACSHA256根据给定key计算value的Hash
-        /// </summary>
-        /// <param name="key">Key</param>
-        /// <param name="value">String to be hashed</param>
-        /// <returns>Hashed value of input data</returns>
-        //private static byte[] GetKeyedHash(byte[] key, string value)
-        //{
-        //    var hashAlgorithm = new SHA512(key);
-        //    hashAlgorithm.Initialize();
-        //    return hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(value));
-        //}
-
-        public static string sha512Encode(string source)
-        {
-            string result = "";
-            byte[] buffer = Encoding.UTF8.GetBytes(source);//UTF-8 编码
-
-            //64字节,512位
-            SHA512CryptoServiceProvider SHA512 = new SHA512CryptoServiceProvider();
-            byte[] h5 = SHA512.ComputeHash(buffer);
-
-            result = BitConverter.ToString(h5).Replace("-", string.Empty); return result.ToLower();
-        }
-
-
         private static byte[] GetKeyedHash(byte[] key, string value)
         {
             KeyedHashAlgorithm hashAlgorithm = new HMACSHA256(key);
@@ -233,6 +207,7 @@ namespace Tonglian.Sdk
 
             return StringToSign;
         }
+    
 
         /// <summary>
         /// 计算签名
@@ -254,12 +229,26 @@ mQZQtzb7wXGiVNtlSQG5cSBTDr9epqxZ97+IpFBf2BVpIdrVYz3fJgx5fykCQDP+
 S6KoJLXJLvqViHgznFiDwG8O7xpqrVOjCcWkg1kjh3M9iwkg4sP/N7hrXg40hN5U
 m4scThe09Dw4b7xyFIkCQGm1PQ8841qTvm7pexWuMB2zFRMicP6QIDPjV7nwCUcv
 b/sGVqoF0c2e4fZ9hoKPww4c55uL3sQ+J18LoKljxSs=";
-            byte[] kSecret = Encoding.UTF8.GetBytes(key.Replace(" ",""));
+
+
+            var s = "<RSAKeyValue><Modulus>sl9tnC9IJ47nHSJRGv4n1WC5XR57xUmKg/74DDBg65ZI7eRhVHzm5vWB4I+qy9CiqakyZLJVsAKD8AdL+9no+J/ABkFxXmoeVZjuG3WvxRBeiGmBkXnUtwJmlhBjtA8zmtCFJtP3bvPUtQt1640m0SwaZBJ16GZTS1YLDQmqfjE=</Modulus><Exponent>AQAB</Exponent><P>60vA84ia5S6gLgTWTUdJPKobMoKUtTVQKtTOSyOFUrryzbWY7PLSXPPLE0VhxU/yVO04raNv8aKmvsdUpZuWbw==</P><Q>whFuRwLnsMoqYDnPVBkTT/aGoxUmi1NZVgQ3T8n+IFkeclwhHJBoTZIU5y5DF1R14Y3Nh6bh35eHKNY7T5qFXw==</Q><DP>dtz+7UfeD9a8/mJdLA7N9YJtWNfUbbIv/GMij5yzFjbwv3B0f4avNFvIA8Ux/e5EGhj4X+dHfsbO+2NQ5JQzqw==</DP><DQ>cQ48gyvjE6/CngoviRuOj5/bcXgp2zK0MZMFMftHi0q/nPmk5IIP8Vivyrm9pgKzJbI5UNRcc6hPue+L3+Tx2w==</DQ><InverseQ>LT8fQgvGTTsczGhQAnMMF+XT7tyGY0AzzxHGAR3sKPld1+QFFTznTPR4ZZPnuMANUIowOB04fm2VaXnvjoLIzg==</InverseQ><D>Nld4T0LgWpzgsDGKQAz6Gbmz/ziQQJSdDIWbECuU+3D3mvIe7Nx4hBh7jux1/k37oHCZl6/1BwBdLb0rWvkSTlmd3yCM2qIRJgEFX4JlBtRMAHlDni4qi1rSxBXlAf4uZXyKjbRIHr3OtH7QELUppcxe1vvQkbmuwxanaJnYszk=</D></RSAKeyValue>";
+
+            byte[] kSecret = Encoding.UTF8.GetBytes(key.Replace(" ", ""));
+
             var str = GetKeyedHash(kSecret, StringToSign);
+
+            RSACryption rsa = new RSACryption();
+
+            //var str = CreateSignature(StringToSign, key);
+
             //var Signature = SignerMethod + ":" + ToHex(str);
 
-            var Signature = SignerMethod + ":" + ToHex(SHA512Hash(StringToSign));
-            //var Signature= SignerMethod + ":" + ToHex(SHA512Hash(StringToSign));
+            //var Signature = SignerMethod + ":" + ToHex(str);
+
+            var Signature = SignerMethod + ":" + rsa.CreateSignature(StringToSign, s);
+
+            //var Signature = SignerMethod + ":" + ToHex(rsa.CreateSignature(StringToSign, s));
+
             return Signature;
         }
 
@@ -276,7 +265,6 @@ b/sGVqoF0c2e4fZ9hoKPww4c55uL3sQ+J18LoKljxSs=";
             byte[] kTermination = GetKeyedHash(kDate, TerminationString);
             return SignerMethod + ":" + ToHex(GetKeyedHash(kTermination, StringToSign));
         }
-
 
         /// <summary>
         /// 构建最终请求头
