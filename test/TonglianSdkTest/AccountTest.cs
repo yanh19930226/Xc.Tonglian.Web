@@ -17,7 +17,7 @@ namespace TonglianSdkTest
             _client = new TonglianClient(EnvEnum.Dev,new HttpClient());
         }
         /// <summary>
-        /// 获取总授权用户所有广告账号
+        /// 账号查询
         /// </summary>
         /// <returns></returns>
         //[Fact]

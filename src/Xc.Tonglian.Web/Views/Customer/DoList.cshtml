@@ -23,7 +23,7 @@
                         <td>11</td>
                         <td>11</td>
                         <td>
-                            <a title="修改" data-src="/StockWarehouse/Edit?WarehouseId=1" class="btn btn-success btn-mini">修改</a>
+                            <a title="修改" data-src="/Customer/Edit?WarehouseId=1" class="btn btn-success btn-mini">修改</a>
                             <a onclick="Delete('1')" class="btn btn-danger btn-mini">删除</a>
                         </td>
                     </tr>
@@ -44,7 +44,7 @@
         $.confirm("您确定要删除吗？", function () {
              $.ajax({
                 type: "GET",
-                 url: "@Url.Action("Delete", "StockWarehouse")?WarehouseId=" + id,
+                 url: "@Url.Action("Delete", "Customer")?WarehouseId=" + id,
                 success: function (data) {
                     if (data) {
                         $.tipsOk("操作成功!");

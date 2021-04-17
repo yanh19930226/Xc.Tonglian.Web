@@ -9,27 +9,23 @@ namespace Xc.Tonglian.Web.Controllers
 {
     public class ShopController : Controller
     {
-        // GET: ShopController
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult DoList()
-        {
-            return PartialView();
-        }
-       
-        // GET: ShopController/Create
-        public ActionResult Create()
+        public IActionResult Add()
         {
             return View();
         }
 
-        // POST: ShopController/Create
+        public IActionResult DoList()
+        {
+            return PartialView();
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult DoAdd()
         {
             try
             {
@@ -41,16 +37,13 @@ namespace Xc.Tonglian.Web.Controllers
             }
         }
 
-        // GET: ShopController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: ShopController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult DoEdit()
         {
             try
             {
@@ -62,10 +55,8 @@ namespace Xc.Tonglian.Web.Controllers
             }
         }
 
-        // POST: ShopController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete()
         {
             try
             {

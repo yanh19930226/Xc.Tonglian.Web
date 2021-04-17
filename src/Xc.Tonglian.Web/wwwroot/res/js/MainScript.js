@@ -1,4 +1,7 @@
-﻿//AjaxPagerX 分页控件跳转用于跳转 传入form名称和页码
+﻿var ResourcesJson = ["ALL"];
+
+
+//AjaxPagerX 分页控件跳转用于跳转 传入form名称和页码
 function AjaxToPage(formname, pageindex) {
 
     var _pageIndex = '#' + formname + ' #pageIndex';
@@ -242,9 +245,6 @@ $(function() {
             return false;
         })
     })
-
-
-
 })
 
 

@@ -23,19 +23,40 @@ namespace Tonglian.Sdk.Models
         /// </summary>
         public T Parameters { get; set; }
         /// <summary>
-        /// 方法
+        /// 请求地址
         /// </summary>
         public abstract string Uri { get; }
         /// <summary>
-        /// 签名秘钥Id
+        /// 通联签名秘钥Id
         /// </summary>
-        public string KSecretId => "3C53A42750112B2F_-G428GCH";
+        public string KSecretId => "2C52B53741103B2FB-1GA08-3";
         /// <summary>
-        /// 签名秘钥
+        /// 通联签名公钥(用于客户端对通联通知内容的验签)
         /// </summary>
-        public string KSecret => "";
+        public string KSecret => "MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEob2LdDlv18Uy/4r0VKW2qjm1rdezGcTHw6RhpL2lbQOJgHQAU2etqQc7IWCywRkMrokFX0nqfDBMrtqBeCZ98A==";
     }
-
+    /// <summary>
+    /// 证书配置
+    /// </summary>
+    public class CertificateConfig
+    {
+        /// <summary>
+        /// 证书路径
+        /// </summary>
+        /// <returns></returns>
+        public string GetCertPath()
+        {
+            return "";
+        }
+        /// <summary>
+        /// 证书访问密码
+        /// </summary>
+        /// <returns></returns>
+        public string GetCertPassword()
+        {
+            return "";
+        }
+    }
     /// <summary>
     /// 公共配置(以Url查询字符串形式发送)
     /// </summary>
@@ -67,7 +88,7 @@ namespace Tonglian.Sdk.Models
         /// <summary>
         /// 签名密钥ID
         /// </summary>
-        public string XAGCPCrdt => "3C53A42750112B2F_-G428GCH:" + DateTime.UtcNow.ToString("yyyyMMdd") + ":gcpservice";
+        public string XAGCPCrdt => "2C52B53741103B2FB-1GA08-3:" + DateTime.UtcNow.ToString("yyyyMMdd") + ":gcpservice";
         /// <summary>
         /// 签名密钥ID:UTC日期:范围(固定gcpservice)
         /// UTC时间戳(YYYYMMDDHHmmss)

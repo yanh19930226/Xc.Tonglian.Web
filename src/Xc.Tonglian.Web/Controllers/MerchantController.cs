@@ -9,26 +9,23 @@ namespace Xc.Tonglian.Web.Controllers
 {
     public class MerchantController : Controller
     {
-        // GET: MerchantController
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult DoList()
-        {
-            return PartialView();
-        }
 
-        // GET: MerchantController/Create
-        public ActionResult Create()
+        public IActionResult Add()
         {
             return View();
         }
 
-        // POST: MerchantController/Create
+        public IActionResult DoList()
+        {
+            return PartialView();
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult DoAdd()
         {
             try
             {
@@ -40,16 +37,13 @@ namespace Xc.Tonglian.Web.Controllers
             }
         }
 
-        // GET: MerchantController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: MerchantController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult DoEdit()
         {
             try
             {
@@ -61,10 +55,8 @@ namespace Xc.Tonglian.Web.Controllers
             }
         }
 
-        // POST: MerchantController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete()
         {
             try
             {
