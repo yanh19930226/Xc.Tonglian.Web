@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tonglian.Sdk.Models
 {
-    public abstract class BaseRequest<T, K>
+    public abstract class BaseRequest<T>
     {
         protected BaseRequest(T Parameters)
         {
@@ -65,15 +65,16 @@ namespace Tonglian.Sdk.Models
         /// <summary>
         /// 客户号
         /// </summary>
-        public string authcus { get; set; } = "1000024722";
+        public string authcus { get; set; } = "665000000001030";
         /// <summary>
         /// 商户号
         /// </summary>
-        public string merid { get; set; } = "665000000001030";
+        public string merid { get; set; } = "668000000001074";
         /// <summary>
         /// 请求流水号
         /// </summary>
         public string reqid { get; set; } = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 7);
+     
     }
 
     /// <summary>
@@ -95,7 +96,7 @@ namespace Tonglian.Sdk.Models
         /// </summary>
         public string XAGCPDate => DateTime.UtcNow.ToString("yyyyMMddHHmmss");
         /// <summary>
-        /// 发送报文的UTC时间(YYYYMMDDHHmmssSSS)
+        /// 发送报文的UTC时间(yyyyMMddHHmmssfff)
         /// </summary>
         public string XAGCPSend => DateTime.UtcNow.ToString("yyyyMMddHHmmssfff");
         /// <summary>
@@ -128,33 +129,3 @@ namespace Tonglian.Sdk.Models
         public string reqid { get; set; } 
     }
 }
-
-//keytool -genkey -alias apiRSA -keypass 123456 -validity 3650 -keyalg RSA -keysize 2048 -keystore D:/Work/ERP/Xc.Tonglian.Web/src/Tonglian.Sdk/apiRSA.store -storepass 123456 -dname "CN=yanh,OU=xc,O=yanh,L=fujian,ST=fuzhou,C=CN"
-
-//keytool -export -alias apiRSA - keystore D:/Work/ERP/Xc.Tonglian.Web/src/Tonglian.Sdk/apiRSA.store -storepass 123456 -file D:/Work/ERP/Xc.Tonglian.Web/src/Tonglian.Sdk/apiRSA.cer
-
-//keytool -list -rfc --keystore D:/Work/ERP/Xc.Tonglian.Web/src/Tonglian.Sdk/apiRSA.store | openssl x509 -inform pem -pubkey
-
-//MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhEyhcRqTWX+jWWVZ+EDn
-//P2T7pzyzi54HOHxgFm8wtt0bOmQTmoONN2b4rzVirNxtWl7S9OFyyba0PxDQNfaN
-//KH2v4BvhS3lnBwZGrWS+I2JKp5WRustLxO/S6d7ih2gk7VGqwtH/TtGJ7G3A5F/C
-//vN7T1xpBlLyhsP8uqwQ6fE7nWBsjXeS20ugcE3u+Jvqhr4grfVQDzsYWTwuDRieO
-//e6yausl8nYgAgGJs0AWIC+cBbb0BJX/U3VayiQK6+mjylDI+V58UZYIS0u8OasEM
-//sn9/UqXZoRUvsuSpot9deUVeSNNcfQozlH5L/r49GbKHaT8dufsAblsCivOs3zGX
-//UQIDAQAB
-
-
-//keytool -v -importkeystore -srckeystore D:/Work/ERP/Xc.Tonglian.Web/src/Tonglian.Sdk/apiRSA.store -srcstoretype jks -srcstorepass 123456 -destkeystore apiRSA.pfx -deststoretype pkcs12 -deststorepass 123456 -destkeypass 123456
-
-
-//    openssl pkcs12 -in apiRSA.pfx -nocerts -nodes
-
-
-//openssl pkcs12 -in apiRSA.pfx -nocerts -nodes -out abc.key
-
-
-//openssl genrsa -out apiRSA.pem 1024
-
-    //openssl genrsa -out apiRSA_priv.pem 1024
-
-    //openssl rsa -pubout -in apiRSA_priv.pem -out apiRSA_pub.pem

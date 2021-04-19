@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tonglian.Sdk.Models.Customers
 {
-    public class CustomerListRequest : BaseRequest<CustomerListRequestModel, CustomerListResponse>
+    public class CustomerListRequest : BaseRequest<CustomerListRequestModel>
     {
         public CustomerListRequest(CustomerListRequestModel data) : base(data)
         {
@@ -18,7 +18,7 @@ namespace Tonglian.Sdk.Models.Customers
         /// <summary>
         /// 客户号
         /// </summary>
-        public string ctid { get; set; }
+        public string cusid { get; set; }
     }
 
     public class CustomerListResponse

@@ -26,12 +26,12 @@ namespace TonglianSdkTest
         {
             var accountListRequestModel = new CustomerListRequestModel()
             {
-                ctid = "1000024726"
+                cusid = "665000000001030"
             };
 
             var result = _client.RequestAsync(new CustomerListRequest(accountListRequestModel));
 
-            Assert.Equal(true, result.Result.IsSuccess);
+            Assert.Equal(true, result.IsSuccess);
         }
     }
 }

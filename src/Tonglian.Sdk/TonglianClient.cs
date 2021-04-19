@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Flurl.Http;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -12,18 +14,11 @@ namespace Tonglian.Sdk
     public class TonglianClient
     {
         private readonly EnvEnum _envEnum;
-        private HttpClient _client { get; }
         public TonglianClient(EnvEnum envEnum, HttpClient client)
         {
             _envEnum = envEnum;
-            _client = client;
         }
-        private class JsonContent : StringContent
-        {
-            public JsonContent(object obj) :
-            base(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json")
-            { }
-        }
+
         private string GetApiBaseUrl()
         {
             switch (_envEnum)
@@ -37,40 +32,42 @@ namespace Tonglian.Sdk
             }
         }
 
-        #region Post
-        public async Task<TonglianResult<K>> RequestAsync<T, K>(BaseRequest<T, K> request)
+     
+        public  TonglianResult<BaseResponse> RequestAsync<T>(BaseRequest<T> request)
         {
+            TonglianResult<BaseResponse> result = new TonglianResult<BaseResponse>();
+
             var StringToSign = Utils.BuildStringToSign(request);
+
             var Signature = Utils.CalculateSignature(StringToSign);
-            _client.DefaultRequestHeaders.Clear();
-            _client.DefaultRequestHeaders.Add("X-AGCP-Crdt", request.Header.XAGCPCrdt);
-            _client.DefaultRequestHeaders.Add("X-AGCP-Date", request.Header.XAGCPSend);
-            _client.DefaultRequestHeaders.Add("X-AGCP-Send", request.Header.XAGCPSend);
-            _client.DefaultRequestHeaders.Add("X-AGCP-Auth", Signature);
-            //_client.DefaultRequestHeaders.Add("Content-Type", request.Header.ContentType);
-            TonglianResult<K> result = new TonglianResult<K>();
+            
+            var client = new RestClient(GetApiBaseUrl());
 
-            var url = GetApiBaseUrl()+ "/gcpapi" + request.Uri+ "?authcus="+request.Config.authcus+ "&merid="+request.Config.merid+ "&reqid="+request.Config.reqid;
+            var rq = new RestRequest("/gcpapi"+request.Uri+"?authcus=" + request.Config.authcus + "&merid=" + request.Config.merid + "&reqid=" + request.Config.reqid, DataFormat.Json);
 
-            var httpResponse =  _client.PostAsync(url, new JsonContent(new { request.Parameters })).Result;
+            rq.AddHeader("X-AGCP-Crdt", request.Header.XAGCPCrdt);
+            rq.AddHeader("X-AGCP-Date", request.Header.XAGCPDate);
+            rq.AddHeader("X-AGCP-Send", request.Header.XAGCPSend);
+            rq.AddHeader("X-AGCP-Auth", Signature);
 
-            var content = await httpResponse.Content.ReadAsStringAsync();
+            rq.AddJsonBody(JsonConvert.SerializeObject(request.Parameters));
 
-            K obj = JsonConvert.DeserializeObject<K>(content);
+            var httpResponse = client.Post(rq).Content;
 
-            if (httpResponse.StatusCode != HttpStatusCode.OK)
+            var rqResult = JsonConvert.DeserializeObject<BaseResponse>(httpResponse);
+
+            if (rqResult.rspcode!="0000")
             {
-                result.Failed(httpResponse.Content.ToString());
+                result.Failed(rqResult.rspinfo.ToString());
             }
             else
-            {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-                result.Success(httpResponse.Content.ToString());
+            {
+                result.Success(rqResult.rspinfo.ToString());
             }
-            result.Result = obj;
+            result.Result = rqResult;
 
-            return await Task.FromResult(result);
+            return result;
 
         }
-        #endregion
     }
 }

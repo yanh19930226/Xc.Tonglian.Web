@@ -20,7 +20,7 @@ namespace Tonglian.Sdk
         /// <summary>
         /// X-AGCP-Send时间格式
         /// </summary>
-        public const string XAGCPSendDateTimeFormat = "YYYYMMDDHHmmssSSS";
+        public const string XAGCPSendDateTimeFormat = "yyyyMMddHHmmssfff";
         /// <summary>
         /// UrlEnCodeValidUrlCharacters
         /// </summary>
@@ -31,7 +31,7 @@ namespace Tonglian.Sdk
         public const string XAGCPDateHeaderName = "X-AGCP-Date";
         public const string XAGCPSendHeaderName = "X-AGCP-Send";
         public const string XAGCPAuthHeaderName = "X-AGCP-Auth";
-        public const string ServiceName = "gcpapi";
+        public const string ServiceName = "/gcpapi";
         public const string TerminationString = "aws4_request";
 
 
@@ -40,16 +40,14 @@ namespace Tonglian.Sdk
         /// </summary>
         /// <param name="data">String to be hashed</param>
         /// <returns>Hashed value of input data</returns>
-        private static byte[] Hash(string data)
+        private static byte[] ComputeSha256Hash(string rawData)
         {
-            return new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(data));
-        }
-
-        private static byte[] GetKeyedHash(byte[] key, string value)
-        {
-            KeyedHashAlgorithm hashAlgorithm = new HMACSHA256(key);
-            hashAlgorithm.Initialize();
-            return hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(value));
+            // Create a SHA256   
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array  
+                return sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+            }
         }
 
         /// <summary>
@@ -74,7 +72,7 @@ namespace Tonglian.Sdk
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private static Dictionary<string, string> ToDictionary(object obj)
+        public  static Dictionary<string, string> ToDictionary(object obj)
         {
             Dictionary<string, string> map = new Dictionary<string, string>();
 
@@ -133,7 +131,7 @@ namespace Tonglian.Sdk
         /// </summary>
         /// <param name="request">RestRequest</param>
         /// <returns>Query parameters in canonical order with URL encoding</returns>
-        public static string ExtractCanonicalQueryString<T,K>(BaseRequest<T, K> request)
+        public static string ExtractCanonicalQueryString<T>(BaseRequest<T> request)
         {
             var sortedqueryParameters = ToDictionary(request.Config);
 
@@ -148,9 +146,6 @@ namespace Tonglian.Sdk
                 canonicalQueryString.AppendFormat("{0}={1}",
                    key,
                    sortedqueryParameters[key]);
-
-                //UrlEncode(key),
-                //   UrlEncode(sortedqueryParameters[key]));
             }
 
             return canonicalQueryString.ToString();
@@ -162,10 +157,25 @@ namespace Tonglian.Sdk
         /// </summary>
         /// <param name="request">RestRequest</param>
         /// <returns>Hexadecimal hashed value of payload in the body of request</returns>
-        public static string HashRequestBody<T, K>(BaseRequest<T, K> request)
+        public static string HashRequestBody<T>(BaseRequest<T> request)
         {
             var parametersJson = JsonConvert.SerializeObject(request.Parameters);
-            return ToHex(Hash(parametersJson.ToString()));
+            var parametersJson1 = JsonConvert.SerializeObject(request.Parameters);
+            var Signature = ComputeSha256Hash(parametersJson);
+            return ToHex(Signature);
+        }
+
+        public static byte[] SHA512WithRSA(string rawData)
+        {
+            AsymmetricAlgorithm RSA1 = new RSACryptoServiceProvider();
+            RSA1.FromXmlString(System.IO.File.ReadAllText("d:\\mycert\\key.xml"));
+            SHA512 sha1 = new SHA512CryptoServiceProvider();
+            byte[] hashbytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+            RSAPKCS1SignatureFormatter signe = new RSAPKCS1SignatureFormatter();
+            signe.SetKey(RSA1);
+            signe.SetHashAlgorithm("SHA512");
+            byte[] reslut = signe.CreateSignature(hashbytes);
+            return reslut;
         }
 
         /// <summary>
@@ -174,20 +184,21 @@ namespace Tonglian.Sdk
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static string BuildStringToSign<T,K>(BaseRequest<T,K> request)
+        public static string BuildStringToSign<T>(BaseRequest<T> request)
         {
             var CanonicalQueryString = ExtractCanonicalQueryString(request);
 
             var HashRequestBodyString= HashRequestBody(request);
 
-            var StringToSign =
-                                  SignerMethod + "\n" +
-                                  ServiceName+request.Uri + "\n" +
-                                  CanonicalQueryString + "\n" +
-                                  request.Header.XAGCPDate + "\n" +
-                                  HashRequestBodyString;
+            System.Text.StringBuilder StringToSign = new System.Text.StringBuilder();
+            StringToSign.Append(SignerMethod + "\n");
+            StringToSign.Append(request.Header.XAGCPDate + "\n");
+            StringToSign.Append(ServiceName + request.Uri + "\n");
+            StringToSign.Append(CanonicalQueryString + "\n");
+            StringToSign.Append(HashRequestBodyString);
 
-            return StringToSign;
+            return StringToSign.ToString();
+
         }
 
         /// <summary>
@@ -201,10 +212,10 @@ namespace Tonglian.Sdk
             #region 读取文件加签
 
             //2.获取证书信息
-            X509Certificate2 c1 = DataCertificate.GetCertificateFromPfxFile("d:\\mycert\\test.pfx", "123456");
+            //X509Certificate2 c1 = DataCertificate.GetCertificateFromPfxFile("d:\\mycert\\test.pfx", "123456");
             //3.使用证书私钥加签待签字符串
-            RSACryption rsa = new RSACryption();
-            var Signature = rsa.CreateSignatureByte(StringToSign, "d:\\mycert\\test.pfx", "123456");
+            //RSACryption rsa = new RSACryption();
+            //var Signature = rsa.CreateSignatureByte(StringToSign, "d:\\mycert\\test.pfx", "123456");
 
             #endregion
 
@@ -226,34 +237,14 @@ namespace Tonglian.Sdk
             //bool bVerify = oRSA4.VerifyData(messagebytes, "SHA512", AOutput); 
             #endregion
 
-            //byte[] kSecret = Encoding.UTF8.GetBytes(SignatureStr);
-            var result = SignerMethod + ":" + ToHex(Signature);
+            var Signature = ToHex(SHA512WithRSA(StringToSign));
 
-            //var result = SignerMethod + ":" + Convert.ToBase64String(HexStringToBytes(SignatureStr));
+            var result = SignerMethod + ":" + Signature;
 
             return result;
         }
 
-        /// <summary>
-        /// 计算签名
-        /// </summary>
-        /// <param name="StringToSign"></param>
-        /// <returns></returns>
-        public static string CalculateSignatureHmac<T, K>(BaseRequest<T, K> request)
-        {
-            var StringToSign = Utils.BuildStringToSign(request);
-            byte[] kSecret = Encoding.UTF8.GetBytes(request.KSecret);
-            byte[] kDate = GetKeyedHash(kSecret, request.Header.XAGCPCrdt);
-            byte[] kTermination = GetKeyedHash(kDate, TerminationString);
-            return SignerMethod + ":" + ToHex(GetKeyedHash(kTermination, StringToSign));
-        }
-
-
-
-
-
-
-        /// <summary>
+        #region MyRegion
         /// 构建最终请求头
         /// </summary>
         /// <returns></returns>
@@ -261,6 +252,7 @@ namespace Tonglian.Sdk
         //{
         //    Dictionary<string, string> sortedHeaders = new Dictionary<string, string>();
         //    return "";
-        //}
+        //} 
+        #endregion
     }
 }
