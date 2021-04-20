@@ -1,82 +1,91 @@
 ﻿
-@model Tonglian.Sdk.Models.Accounts.AccountCreateRequest
+@model Xc.Tonglian.Web.Models.Dto.Account.AccountEditDto
 @{
     Layout = null;
 }
 <div class="row">
     <div class="col-lg-12">
         <section class="panel">
-            <script>
-                completed = function (xhr) {
-                    debugger;
-                    if (xhr.responseText == "true") {
-                        $.tipsOk("操作成功！");
-                        setTimeout(function () {
-                            window.location = window.location;
-                        }, 1500);
-                    } else {
-                        $.tipsError("修改失败");
-                    }
-                };
-            </script>
-            <form class="form-horizontal" data-ajax="true" data-ajax-complete="completed" asp-action="DoAdd" id="newform" asp-controller="SysShopAndAdvertisement" data-ajax-method="post">
+            <form class="form-horizontal" data-ajax="true" data-ajax-complete="completed" asp-action="DoEdit" id="newform" asp-controller="Account" data-ajax-method="post">
+                <input type="hidden" asp-for="Id" />
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">cusid</label>
+                    <label class="col-lg-3 control-label">客户号</label>
                     <div class="col-lg-8">
-                        <input asp-for="cusid" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="cusid" class="text-danger"> </span>
+                        <input asp-for="CusId" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="CusId" class="text-danger"> </span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">accountNo</label>
+                    <label class="col-lg-3 control-label">账户号</label>
                     <div class="col-lg-8">
-                        <input asp-for="accountNo" class="bg-focus form-control parsley-validated" />
+                        <input asp-for="AccountNo" class="bg-focus form-control parsley-validated" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">currency</label>
+                    <label class="col-lg-3 control-label">账户币种</label>
                     <div class="col-lg-8">
-                        <input asp-for="currency" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="currency" class="text-danger"> </span>
+                        <input asp-for="Currency" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Currency" class="text-danger"> </span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">accountName</label>
+                    <label class="col-lg-3 control-label">账户名</label>
                     <div class="col-lg-8">
-                        <input asp-for="accountName" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="accountName" class="text-danger"> </span>
+                        <input asp-for="AccountName" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="AccountName" class="text-danger"> </span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">nature</label>
+                    <label class="col-lg-3 control-label">账户类型</label>
                     <div class="col-lg-8">
-                        <input asp-for="nature" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="nature" class="text-danger"> </span>
+                        <input asp-for="Nature" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Nature" class="text-danger"> </span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">country</label>
+                    <label class="col-lg-3 control-label">账户地区</label>
                     <div class="col-lg-8">
-                        <input asp-for="country" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="country" class="text-danger"> </span>
+                        <input asp-for="Country" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Country" class="text-danger"> </span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">province</label>
+                    <label class="col-lg-3 control-label">账户省份</label>
                     <div class="col-lg-8">
-                        <input asp-for="province" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="province" class="text-danger"> </span>
+                        <input asp-for="Province" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Province" class="text-danger"> </span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">city</label>
+                    <label class="col-lg-3 control-label">账户城市</label>
                     <div class="col-lg-8">
-                        <input asp-for="city" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="city" class="text-danger"> </span>
+                        <input asp-for="City" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="City" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">卡折类型</label>
+                    <div class="col-lg-8">
+                        <input asp-for="CardorBook" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="CardorBook" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">当地行号</label>
+                    <div class="col-lg-8">
+                        <input asp-for="BicCode" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="BicCode" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">地址</label>
+                    <div class="col-lg-8">
+                        <input asp-for="Addr" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Addr" class="text-danger"> </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -93,6 +102,18 @@
     </div>
 </div>
 <script>
+    var completed = function (xhr) {
+        debugger;
+        if (xhr.responseText == "true") {
+            $.tipsOk("操作成功！");
+            setTimeout(function () {
+                window.location = window.location;
+            }, 1500);
+        } else {
+            $.tipsError("修改失败");
+        }
+    };
+
     $(function () {
         $("#ScrapTime").each(function (p, obj) { $(obj).datepicker(); });
     })

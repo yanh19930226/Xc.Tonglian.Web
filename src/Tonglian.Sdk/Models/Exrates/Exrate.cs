@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tonglian.Sdk.Models.Exrates
 {
-    public class ExrateRequest : BaseRequest<ExrateRequestModel>
+    public class ExrateRequest : BaseRequest<ExrateRequestModel, ExrateResponse>
     {
         public ExrateRequest(ExrateRequestModel data) : base(data)
         {
@@ -20,7 +20,7 @@ namespace Tonglian.Sdk.Models.Exrates
         public string dstccy{ get; set; }
     }
 
-    public class ExrateResponse
+    public class ExrateResponse:BaseResponse
     {
 
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Xc.Tonglian.Web.Application.Dtos.Shops
+namespace Xc.Tonglian.Web.Services.Impl
 {
-    public class ShopSearch
+    public class AccountService
     {
     }
 }

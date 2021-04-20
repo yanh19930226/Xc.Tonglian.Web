@@ -13,9 +13,22 @@ namespace Tonglian.Sdk
 {
     public class TonglianClient
     {
+        private readonly string _service;
+        private readonly string _secretId;
+        private readonly string _secretKey;
+        private readonly string _authcus;
+        private readonly string _merid;
+
+        //private readonly Config _config;
         private readonly EnvEnum _envEnum;
-        public TonglianClient(EnvEnum envEnum, HttpClient client)
+
+        public TonglianClient(string service,string secretId,string secretKey, string authcus, string merid, EnvEnum envEnum)
         {
+            _service = service;
+            _secretId = secretId;
+            _secretKey = secretKey;
+            _authcus = authcus;
+            _merid = merid;
             _envEnum = envEnum;
         }
 
@@ -33,9 +46,23 @@ namespace Tonglian.Sdk
         }
 
      
-        public  TonglianResult<BaseResponse> RequestAsync<T>(BaseRequest<T> request)
+        public  K RequestAsync<T,K>(BaseRequest<T,K> request)
         {
-            TonglianResult<BaseResponse> result = new TonglianResult<BaseResponse>();
+            RequestHeader header = new RequestHeader(_secretId, _service);
+
+            Config conf = new Config() {
+                authcus = _authcus,
+                merid=_merid
+            };
+
+            request.Header= header;
+
+            request.KSecretId = _secretId;
+
+            request.KSecret = _secretKey;
+
+            request.Config = conf;
+           
 
             var StringToSign = Utils.BuildStringToSign(request);
 
@@ -54,17 +81,7 @@ namespace Tonglian.Sdk
 
             var httpResponse = client.Post(rq).Content;
 
-            var rqResult = JsonConvert.DeserializeObject<BaseResponse>(httpResponse);
-
-            if (rqResult.rspcode!="0000")
-            {
-                result.Failed(rqResult.rspinfo.ToString());
-            }
-            else
-            {
-                result.Success(rqResult.rspinfo.ToString());
-            }
-            result.Result = rqResult;
+            var result = JsonConvert.DeserializeObject<K>(httpResponse);
 
             return result;
 

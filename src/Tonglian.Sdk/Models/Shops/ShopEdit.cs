@@ -5,7 +5,7 @@ using System.Text;
 namespace Tonglian.Sdk.Models.Shops
 {
 
-    public class ShopEditRequest : BaseRequest<ShopEditRequestModel>
+    public class ShopEditRequest : BaseRequest<ShopEditRequestModel, ShopEditResponse>
     {
         public ShopEditRequest(ShopEditRequestModel data) : base(data)
         {
@@ -15,6 +15,10 @@ namespace Tonglian.Sdk.Models.Shops
     }
     public class ShopEditRequestModel
     {
+        /// <summary>
+        /// 店铺号
+        /// </summary>
+        public string sid { get; set; }
         /// <summary>
         /// 跟踪号
         /// </summary>
@@ -65,7 +69,7 @@ namespace Tonglian.Sdk.Models.Shops
         public string authtoken { get; set; }
     }
 
-    public class ShopEditResponse
+    public class ShopEditResponse:BaseResponse
     {
         public string stid { get; set; }
         public string sid { get; set; }

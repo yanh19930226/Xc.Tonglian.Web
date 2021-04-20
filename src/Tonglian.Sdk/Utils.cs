@@ -131,7 +131,7 @@ namespace Tonglian.Sdk
         /// </summary>
         /// <param name="request">RestRequest</param>
         /// <returns>Query parameters in canonical order with URL encoding</returns>
-        public static string ExtractCanonicalQueryString<T>(BaseRequest<T> request)
+        public static string ExtractCanonicalQueryString<T,K>(BaseRequest<T, K> request)
         {
             var sortedqueryParameters = ToDictionary(request.Config);
 
@@ -157,7 +157,7 @@ namespace Tonglian.Sdk
         /// </summary>
         /// <param name="request">RestRequest</param>
         /// <returns>Hexadecimal hashed value of payload in the body of request</returns>
-        public static string HashRequestBody<T>(BaseRequest<T> request)
+        public static string HashRequestBody<T, K>(BaseRequest<T, K> request)
         {
             var parametersJson = JsonConvert.SerializeObject(request.Parameters);
             var parametersJson1 = JsonConvert.SerializeObject(request.Parameters);
@@ -184,7 +184,7 @@ namespace Tonglian.Sdk
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static string BuildStringToSign<T>(BaseRequest<T> request)
+        public static string BuildStringToSign<T,K>(BaseRequest<T,K> request)
         {
             var CanonicalQueryString = ExtractCanonicalQueryString(request);
 

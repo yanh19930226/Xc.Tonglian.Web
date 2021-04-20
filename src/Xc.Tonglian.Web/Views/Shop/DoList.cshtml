@@ -1,50 +1,66 @@
 ﻿
-@model Xc.Tonglian.Web.Views.PageList<Tonglian.Sdk.Models.Accounts.AccountListReponse>
+@model List<Xc.Tonglian.Web.Models.Domain.Shop>
 
 <div class="pull-out m-t-small">
-    @*@if (Model.Count > 0)
-    {*@
+    @if (Model.Count > 0)
+    {
         <table class="table table-striped b-t text-small table-bordered">
             <thead>
                 <tr>
-                    <th>客户号</th>
-                    <th>账户号</th>
-                    <th>账户币种</th>
-                    <th>账户币种</th>
+                    <th>跟踪号</th>
+                    <th>平台</th>
+                    <th>币种</th>
+                    <th>有无店铺</th>
+                    <th>卖家编号</th>
+                    <th>月交易量</th>
+                    <th>所有者名称</th>
+                    <th>店铺名称</th>
+                    <th>店铺/站点链接</th>
+                    <th>销售类目</th>
+                    <th>运营时间</th>
+                    <th>授权令牌</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 5; i++)
+                @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>
-                            <a title="修改" data-src="/Shop/Edit?WarehouseId=1" class="btn btn-success btn-mini">修改</a>
-                            <a onclick="Delete('1')" class="btn btn-danger btn-mini">删除</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@item.StId</td>
+                    <td>@item.Platform</td>
+                    <td>@item.Currency</td>
+                    <td>@item.Exists</td>
+                    <td>@item.SellerId</td>
+                    <td>@item.Monthamt</td>
+                    <td>@item.Owner</td>
+                    <td>@item.StoreName</td>
+                    <td>@item.Weburl</td>
+                    <td>@item.Categroy</td>
+                    <td>@item.Runtime</td>
+                    <td>@item.AuthToken</td>
+                    <td>
+                        <a title="修改" data-src="/Shop/Edit?Id=@item.Id" class="btn btn-success btn-mini">修改</a>
+                        <a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini">删除</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
-    @*}
+    }
     else
     {
         <div class="alert alert-warning alert-block none-alert">
             <h4><i class="icon-bell-alt"></i>暂无数据!</h4>
         </div>
-    }*@
+    }
 </div>
-@*@Html.Pager(Model, "newform")*@
+
 <script type="text/javascript">
     var Delete = function (id) {
         $.confirm("您确定要删除吗？", function () {
              $.ajax({
                 type: "GET",
-                 url: "@Url.Action("Delete", "StockWarehouse")?WarehouseId=" + id,
+                 url: "@Url.Action("Delete", "Shop")?Id=" + id,
                 success: function (data) {
                     if (data) {
                         $.tipsOk("操作成功!");

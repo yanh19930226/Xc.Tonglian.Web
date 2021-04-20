@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tonglian.Sdk.Models.Accounts
 {
-    public class AccountListRequest : BaseRequest<AccountListRequestModel>
+    public class AccountListRequest : BaseRequest<AccountListRequestModel, AccountListReponse>
     {
         public AccountListRequest(AccountListRequestModel data) : base(data)
         {
@@ -33,7 +33,7 @@ namespace Tonglian.Sdk.Models.Accounts
 
     }
 
-    public class AccountListReponse
+    public class AccountListReponse:BaseResponse
     {
         public string cusid { get; set; }
         public string accountNo { get; set; }

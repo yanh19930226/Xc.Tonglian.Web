@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Tonglian.Sdk
+namespace Xc.Tonglian.Web
 {
     /// <summary>
     /// 响应实体
@@ -57,28 +58,6 @@ namespace Tonglian.Sdk
         {
             Message = exception.InnerException?.StackTrace;
             Code = TonglianResultCode.Failed;
-        }
-    }
-    /// <summary>
-    /// 响应实体
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class TonglianResult<T> : TonglianResult
-    {
-        /// <summary>
-        /// 返回结果
-        /// </summary>
-        public T Result { get; set; }
-        /// <summary>
-        /// 响应成功
-        /// </summary>
-        /// <param name="result"></param>
-        /// <param name="message"></param>
-        public void Success(T result = default(T), string message = "")
-        {
-            Message = message;
-            Code = TonglianResultCode.Succeed;
-            Result = result;
         }
     }
 

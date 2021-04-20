@@ -15,7 +15,7 @@ namespace TonglianSdkTest
         private readonly TonglianClient _client;
         public CustomerTest()
         {
-            _client = new TonglianClient(EnvEnum.Dev, new HttpClient());
+            //_client = new TonglianClient("", "", "", new Tonglian.Sdk.Models.Config(), EnvEnum.Dev);
         }
         /// <summary>
         /// 客户查询
@@ -31,7 +31,7 @@ namespace TonglianSdkTest
 
             var result = _client.RequestAsync(new CustomerListRequest(accountListRequestModel));
 
-            Assert.Equal(true, result.IsSuccess);
+            Assert.Equal("", result.rspinfo);
         }
     }
 }

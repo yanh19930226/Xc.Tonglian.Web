@@ -11,11 +11,11 @@ namespace TonglianSdkTest
 {
     public class ShopTest
     {
-
         private readonly TonglianClient _client;
+
         public ShopTest()
         {
-            _client = new TonglianClient(EnvEnum.Dev, new HttpClient());
+            _client = new TonglianClient("gcpservice", "2C52B53741103B2FB-1GA08-3", "MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEob2LdDlv18Uy/4r0VKW2qjm1rdezGcTHw6RhpL2lbQOJgHQAU2etqQc7IWCywRkMrokFX0nqfDBMrtqBeCZ98A==", "665000000001030", "668000000001074", EnvEnum.Dev);
         }
         /// <summary>
         /// 店铺查询
@@ -31,7 +31,7 @@ namespace TonglianSdkTest
 
             var result = _client.RequestAsync(new ShopListRequest(accountListRequestModel));
 
-            Assert.Equal(true, result.IsSuccess);
+            Assert.Equal("", result.rspinfo);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace TonglianSdkTest
 
             var result = _client.RequestAsync(new ShopCreateReqeust(createShop));
 
-            Assert.Equal(true, result.IsSuccess);
+            Assert.Equal("", result.rspinfo);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace TonglianSdkTest
                 currency = "USD",
                 exists = "01",
                 sellerid = "66666",
-                monthamt = 10,
+                monthamt = 20,
                 owner = "yanh",
                 storename = "yanh",
                 weburl = "www.yanfun.com",
@@ -85,7 +85,7 @@ namespace TonglianSdkTest
 
             var result = _client.RequestAsync(new ShopEditRequest(ShopEditRequest));
 
-            Assert.Equal(true, result.IsSuccess);
+            Assert.Equal("", result.rspinfo);
         }
     }
 }

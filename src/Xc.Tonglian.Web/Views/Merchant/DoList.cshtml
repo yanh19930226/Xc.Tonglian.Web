@@ -1,50 +1,54 @@
 ﻿
-@model Xc.Tonglian.Web.Views.PageList<Tonglian.Sdk.Models.Accounts.AccountListReponse>
+@model List<Xc.Tonglian.Web.Models.Domain.Merchant>
 
 <div class="pull-out m-t-small">
-    @*@if (Model.Count > 0)
-    {*@
+    @if (Model.Count > 0)
+    {
         <table class="table table-striped b-t text-small table-bordered">
             <thead>
                 <tr>
+                    <th>注册号</th>
                     <th>客户号</th>
-                    <th>账户号</th>
-                    <th>账户币种</th>
-                    <th>账户币种</th>
+                    <th>商户名称</th>
+                    <th>业务地区</th>
+                    <th>归属机构</th>
+                    <th>开通产品</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 5; i++)
+                @foreach (var item in Model)
                 {
                     <tr>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
+                        <td>@item.RegId</td>
+                        <td>@item.CusId</td>
+                        <td>@item.MerName</td>
+                        <td>@item.AreaCode</td>
+                        <td>@item.OrganId</td>
+                        <td>@item.Products</td>
                         <td>
-                            <a title="修改" data-src="/Merchant/Edit?WarehouseId=1" class="btn btn-success btn-mini">修改</a>
-                            <a onclick="Delete('1')" class="btn btn-danger btn-mini">删除</a>
+                            <a title="修改" data-src="/Merchant/Edit?Id=@item.Id" class="btn btn-success btn-mini">修改</a>
+                            <a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini">删除</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-    @*}
+    }
     else
     {
         <div class="alert alert-warning alert-block none-alert">
             <h4><i class="icon-bell-alt"></i>暂无数据!</h4>
         </div>
-    }*@
+    }
 </div>
-@*@Html.Pager(Model, "newform")*@
+
 <script type="text/javascript">
     var Delete = function (id) {
         $.confirm("您确定要删除吗？", function () {
              $.ajax({
                 type: "GET",
-                 url: "@Url.Action("Delete", "StockWarehouse")?WarehouseId=" + id,
+                 url: "@Url.Action("Delete", "Merchant")?Id=" + id,
                 success: function (data) {
                     if (data) {
                         $.tipsOk("操作成功!");

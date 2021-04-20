@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tonglian.Sdk.Models
 {
-    public abstract class BaseRequest<T>
+    public abstract class BaseRequest<T,K>
     {
         protected BaseRequest(T Parameters)
         {
@@ -17,11 +17,15 @@ namespace Tonglian.Sdk.Models
         /// <summary>
         /// 请求头
         /// </summary>
-        public RequestHeader Header { get; set; } = new RequestHeader();
+        public RequestHeader Header { get; set; } /*= new RequestHeader(KSecretId, Service);*/
         /// <summary>
         /// 请求参数
         /// </summary>
         public T Parameters { get; set; }
+        /// <summary>
+        /// 请求服务
+        /// </summary>
+        public string Service { get; set; }
         /// <summary>
         /// 请求地址
         /// </summary>
@@ -29,11 +33,13 @@ namespace Tonglian.Sdk.Models
         /// <summary>
         /// 通联签名秘钥Id
         /// </summary>
-        public string KSecretId => "2C52B53741103B2FB-1GA08-3";
+        public string KSecretId { get; set; }
+        //public string KSecretId => "2C52B53741103B2FB-1GA08-3";
         /// <summary>
         /// 通联签名公钥(用于客户端对通联通知内容的验签)
         /// </summary>
-        public string KSecret => "MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEob2LdDlv18Uy/4r0VKW2qjm1rdezGcTHw6RhpL2lbQOJgHQAU2etqQc7IWCywRkMrokFX0nqfDBMrtqBeCZ98A==";
+        public string KSecret { get; set; }
+        //public string KSecret => "MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEob2LdDlv18Uy/4r0VKW2qjm1rdezGcTHw6RhpL2lbQOJgHQAU2etqQc7IWCywRkMrokFX0nqfDBMrtqBeCZ98A==";
     }
     /// <summary>
     /// 证书配置
@@ -65,11 +71,11 @@ namespace Tonglian.Sdk.Models
         /// <summary>
         /// 客户号
         /// </summary>
-        public string authcus { get; set; } = "665000000001030";
+        public string authcus { get; set; } /*= "665000000001030";*/
         /// <summary>
         /// 商户号
         /// </summary>
-        public string merid { get; set; } = "668000000001074";
+        public string merid { get; set; } /*= "668000000001074";*/
         /// <summary>
         /// 请求流水号
         /// </summary>
@@ -82,6 +88,13 @@ namespace Tonglian.Sdk.Models
     /// </summary>
     public class RequestHeader
     {
+        public string _KSecretId { get; set; }
+        public string _Service { get; set; }
+        public RequestHeader(string KSecretId,string  Service)
+        {
+            _KSecretId = KSecretId;
+            _Service = Service;
+        }
         /// <summary>
         /// ContentType
         /// </summary>
@@ -89,7 +102,9 @@ namespace Tonglian.Sdk.Models
         /// <summary>
         /// 签名密钥ID
         /// </summary>
-        public string XAGCPCrdt => "2C52B53741103B2FB-1GA08-3:" + DateTime.UtcNow.ToString("yyyyMMdd") + ":gcpservice";
+        public string XAGCPCrdt => this._KSecretId+":" + DateTime.UtcNow.ToString("yyyyMMdd") + ":"+this._Service;
+
+        //public string XAGCPCrdt => "2C52B53741103B2FB-1GA08-3:" + DateTime.UtcNow.ToString("yyyyMMdd") + ":gcpservice";
         /// <summary>
         /// 签名密钥ID:UTC日期:范围(固定gcpservice)
         /// UTC时间戳(YYYYMMDDHHmmss)

@@ -1,71 +1,104 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xc.Tonglian.Web.Models.Domain;
+using Xc.Tonglian.Web.Models.Dto.Merchant;
 
 namespace Xc.Tonglian.Web.Controllers
 {
     public class MerchantController : Controller
     {
-        public ActionResult Index()
+        private TonglianDbContext _dbContext;
+        private readonly IMapper _mapper;
+        public MerchantController(TonglianDbContext dbContext, IMapper mapper)
         {
-            return View();
+            _dbContext = dbContext;
+            _mapper = mapper;
         }
-
-        public IActionResult Add()
+        public ActionResult Index()
         {
             return View();
         }
 
         public IActionResult DoList()
         {
-            return PartialView();
-        }
+            var result = _dbContext.Merchants.Where(p => p.IsDel == false).ToList();
 
-        [HttpPost]
-        public IActionResult DoAdd()
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            return PartialView(result);
 
-        public ActionResult Edit(int id)
+        }
+        public IActionResult Add()
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult DoEdit()
+        public IActionResult DoAdd(MerchantCreateDto dto)
         {
-            try
+            TonglianResult result = new TonglianResult();
+
+            _dbContext.Merchants.Add(new Merchant()
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+                RegId = dto.RegId,
+                CusId = dto.CusId,
+                MerName = dto.MerName,
+                AreaCode = dto.AreaCode,
+                OrganId = dto.OrganId,
+                Products = dto.Products,
+            });
+            if (_dbContext.SaveChanges() > 0)
             {
-                return View();
+                result.Success("添加成功");
             }
+            return Ok(result);
+        }
+
+        public ActionResult Edit(int Id)
+        {
+            var edit = _dbContext.Merchants.Where(p => p.Id == Id).FirstOrDefault();
+            MerchantEditDto dto = new MerchantEditDto();
+            dto.RegId = edit.RegId;
+            dto.CusId = edit.CusId;
+            dto.MerName = edit.MerName;
+            dto.AreaCode = edit.AreaCode;
+            dto.OrganId = edit.OrganId;
+            dto.Products = edit.Products;
+            return View(dto);
         }
 
         [HttpPost]
-        public IActionResult Delete()
+        public IActionResult DoEdit(MerchantEditDto dto)
         {
-            try
+            TonglianResult result = new TonglianResult();
+            var edit = _dbContext.Merchants.Where(p => p.Id == dto.Id).FirstOrDefault();
+            edit.RegId = dto.RegId;
+            edit.CusId = dto.CusId;
+            edit.MerName = dto.MerName;
+            edit.AreaCode = dto.AreaCode;
+            edit.OrganId = dto.OrganId;
+            edit.Products = dto.Products;
+            _dbContext.Merchants.Update(edit);
+            if (_dbContext.SaveChanges() > 0)
             {
-                return RedirectToAction(nameof(Index));
+                result.Success("修改成功");
             }
-            catch
+            return Ok(result);
+        }
+
+        public IActionResult Delete(int Id)
+        {
+            TonglianResult result = new TonglianResult();
+            var delete = _dbContext.Merchants.Where(p => p.Id == Id).FirstOrDefault();
+            delete.IsDel = true;
+            _dbContext.Merchants.Update(delete);
+            if (_dbContext.SaveChanges() > 0)
             {
-                return View();
+                result.Success("删除成功");
             }
+            return Ok(result);
         }
     }
 }

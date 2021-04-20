@@ -15,7 +15,7 @@ namespace TonglianSdkTest
         private readonly TonglianClient _client;
         public AccountTest()
         {
-            _client = new TonglianClient(EnvEnum.Dev,new HttpClient());
+            //_client = new TonglianClient("","","", "", "", new Tonglian.Sdk.Models.Config(), EnvEnum.Dev);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace TonglianSdkTest
 
             var result = _client.RequestAsync(new ExrateRequest(ExrateRequestModel));
 
-            Assert.Equal(true, result.IsSuccess);
+            Assert.Equal("", result.rspinfo);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace TonglianSdkTest
 
             var result = _client.RequestAsync(new AccountListRequest(accountListRequestModel));
 
-            Assert.Equal(true, result.IsSuccess);
+            Assert.Equal("", result.rspinfo);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace TonglianSdkTest
 
             var result = _client.RequestAsync(new AccountCreateRequest(AccountCreateModel));
 
-            Assert.Equal(true, result.IsSuccess);
+            Assert.Equal("", result.rspinfo);
         }
 
     }

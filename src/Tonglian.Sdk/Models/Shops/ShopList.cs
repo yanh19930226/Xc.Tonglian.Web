@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tonglian.Sdk.Models.Shops
 {
-    public class ShopListRequest : BaseRequest<ShopListRequestModel>
+    public class ShopListRequest : BaseRequest<ShopListRequestModel, ShopListResponse>
     {
         public ShopListRequest(ShopListRequestModel data) : base(data)
         {
