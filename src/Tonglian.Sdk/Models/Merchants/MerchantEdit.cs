@@ -41,7 +41,7 @@ namespace Tonglian.Sdk.Models.Merchants
         public string products { get; set; }
     }
 
-    public class MerchantEditResponse
+    public class MerchantEditResponse:BaseResponse
     {
     }
 }

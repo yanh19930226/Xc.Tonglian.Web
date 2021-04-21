@@ -6,19 +6,6 @@
 <div class="row">
     <div class="col-lg-12">
         <section class="panel">
-            <script>
-                completed = function (xhr) {
-                    debugger;
-                    if (xhr.responseText == "true") {
-                        $.tipsOk("操作成功！");
-                        setTimeout(function () {
-                            window.location = window.location;
-                        }, 1500);
-                    } else {
-                        $.tipsError("修改失败");
-                    }
-                };
-            </script>
             <form class="form-horizontal" data-ajax="true" data-ajax-complete="completed" asp-action="DoEdit" id="newform" asp-controller="Shop" data-ajax-method="post">
                 <input type="hidden" asp-for="Id" />
 
@@ -124,6 +111,19 @@
     </div>
 </div>
 <script>
+
+    completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.isSuccess) {
+            console.log(xhr);
+            $.tipsOk(rv.message);
+            window.location = window.location;
+        } else {
+            $.tipsError(rv.message);
+        }
+    };
+
+
     $(function () {
         $("#ScrapTime").each(function (p, obj) { $(obj).datepicker(); });
     })

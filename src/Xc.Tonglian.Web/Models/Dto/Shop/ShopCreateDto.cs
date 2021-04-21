@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xc.Tonglian.Web.Models.Enums;
 
 namespace Xc.Tonglian.Web.Models.Dto.Shop
 {
@@ -55,5 +56,9 @@ namespace Xc.Tonglian.Web.Models.Dto.Shop
         /// 授权令牌
         /// </summary>
         public string AuthToken { get; set; }
+        /// <summary>
+        /// 待审核
+        /// </summary>
+        public int Status { get; set; } = (int)StatusEnum.Verifing;
     }
 }

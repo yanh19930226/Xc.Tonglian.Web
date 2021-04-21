@@ -43,18 +43,16 @@ namespace TonglianSdkTest
         {
             var createShop = new ShopCreateReqeustModel()
             {
-                stid= "202104191800",
+                stid= "20210419180011",
                 platform= "9101",
-                currency="USD",
-                exists= "01",
+                currency = "USD",
+                exists = "01",
                 sellerid="66666",
                 monthamt=10,
                 owner="yanh",
                 storename="yanh",
                 weburl="www.yanfun.com",
                 categroy= "0011",
-
-
             };
 
             var result = _client.RequestAsync(new ShopCreateReqeust(createShop));
@@ -71,7 +69,7 @@ namespace TonglianSdkTest
         {
             var ShopEditRequest = new ShopEditRequestModel()
             {
-                stid = "202104191800",
+                stid = "20210419180011",
                 platform = "9101",
                 currency = "USD",
                 exists = "01",

@@ -1,50 +1,85 @@
 ﻿
-@model Xc.Tonglian.Web.Views.PageList<Tonglian.Sdk.Models.Accounts.AccountListReponse>
+@model List<Xc.Tonglian.Web.Models.Domain.Customer>
 
 <div class="pull-out m-t-small">
-    @*@if (Model.Count > 0)
-    {*@
+
+    @if (Model.Count > 0)
+    {
         <table class="table table-striped b-t text-small table-bordered">
             <thead>
                 <tr>
-                    <th>客户号</th>
-                    <th>账户号</th>
-                    <th>账户币种</th>
-                    <th>账户币种</th>
+                    <th>跟踪号</th>
+                    <th>客户名</th>
+                    <th>注册地址</th>
+                    <th>分公司</th>
+                    <th>地区</th>
+                    <th>性质</th>
+                    <th>电话</th>
+                    <th>分类</th>
+                    <th>业务</th>
+                    <th>法人姓名</th>
+                    <th>交易网站名称</th>
+                    <th>跨境交易地址</th>
+                    <th>行业</th>
+                    <th>邮箱</th>
+                    <th>审核状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 5; i++)
+                @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td>
-                            <a title="修改" data-src="/Customer/Edit?WarehouseId=1" class="btn btn-success btn-mini">修改</a>
-                            <a onclick="Delete('1')" class="btn btn-danger btn-mini">删除</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@item.CtId</td>
+                    <td>@item.CusName</td>
+                    <td>@item.Address</td>
+                    <td>@item.Belongbranch</td>
+                    <td>@item.Areacode</td>
+                    <td>@item.Flag</td>
+                    <td>@item.Tel</td>
+                    <td>@item.Cuskind</td>
+                    <td>@item.Businesskind</td>
+                    <td>@item.Legal</td>
+                    <td>@item.Website</td>
+                    <td>@item.Tradingplatform</td>
+                    <td>@item.Tlinstcode</td>
+                    <td>@item.Legalemail</td>
+                    @if (item.Status == 0)
+                    {
+                        <td>待审核</td>
+                    }
+                    @if (item.Status == 1)
+                    {
+                        <td>审核成功</td>
+                    }
+                    @if (item.Status == 2)
+                    {
+                        <td>审核失败</td>
+                    }
+                <td>
+                    <a title="修改" data-src="/Shop/Edit?Id=@item.Id" class="btn btn-success btn-mini">修改</a>
+                    <a title="详细" data-src="/Shop/Detail?Id=@item.Id" class="btn btn-dark btn-mini">详细</a>
+                    @*<a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini">删除</a>*@
+                </td>
+                </tr>
                 }
             </tbody>
-        @*</table>
+        </table>
     }
     else
     {
         <div class="alert alert-warning alert-block none-alert">
             <h4><i class="icon-bell-alt"></i>暂无数据!</h4>
         </div>
-    }*@
+    }
 </div>
-@*@Html.Pager(Model, "newform")*@
+
 <script type="text/javascript">
     var Delete = function (id) {
         $.confirm("您确定要删除吗？", function () {
              $.ajax({
                 type: "GET",
-                 url: "@Url.Action("Delete", "Customer")?WarehouseId=" + id,
+                 url: "@Url.Action("Delete", "Shop")?Id=" + id,
                 success: function (data) {
                     if (data) {
                         $.tipsOk("操作成功!");

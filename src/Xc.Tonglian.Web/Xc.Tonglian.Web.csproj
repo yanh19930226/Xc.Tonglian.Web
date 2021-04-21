@@ -23,9 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\CommandHandlers\Accounts\" />
+    <Folder Include="Application\CommandHandlers\Customers\" />
+    <Folder Include="Application\CommandHandlers\Merchants\" />
+    <Folder Include="Application\Commands\Accounts\" />
+    <Folder Include="Application\Commands\Customers\" />
+    <Folder Include="Application\Commands\Merchants\" />
     <Folder Include="Application\Queries\" />
-    <Folder Include="Application\CommandHandlers\" />
-    <Folder Include="Application\Commands\" />
   </ItemGroup>
 
 </Project>

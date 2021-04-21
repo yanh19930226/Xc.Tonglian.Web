@@ -10,8 +10,8 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">注册号</label>
                     <div class="col-lg-8">
-                        <input asp-for="RegId" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="RegId" class="text-danger"> </span>
+                        <input asp-for="Mtid" class="bg-focus form-control parsley-validated" />
+                        <span asp-validation-for="Mtid" class="text-danger"> </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -38,22 +38,16 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">归属机构</label>
                     <div class="col-lg-8">
-                        <input asp-for="OrganId" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="OrganId" class="text-danger"> </span>
+                        <select asp-for="OrganId" class="bg-focus form-control parsley-validated">
+                            <option value="1">通华</option>
+                            <option value="0">通联</option>
+                        </select>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">开通产品</label>
-                    <div class="col-lg-8">
-                        <input asp-for="Products" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="Products" class="text-danger"> </span>
-                    </div>
-                </div>
+                
                 <div class="form-group">
 
                     <div class="col-lg-9 col-offset-3">
-
                         <button type="submit" class="btn btn-primary">保存</button>
                         <a type="submit" href="/Merchant" class="btn btn-default">返回</a>
                     </div>
@@ -64,19 +58,14 @@
     </div>
 </div>
 <script>
-    var completed = function (xhr) {
-        debugger;
-        if (xhr.responseText == "true") {
-            $.tipsOk("操作成功！");
-            setTimeout(function () {
-                window.location = window.location;
-            }, 1500);
+    completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.isSuccess) {
+            console.log(xhr);
+            $.tipsOk(rv.message);
+            window.location = window.location;
         } else {
-            $.tipsError("修改失败");
+            $.tipsError(rv.message);
         }
     };
-
-    $(function () {
-        $("#ScrapTime").each(function (p, obj) { $(obj).datepicker(); });
-    })
 </script>

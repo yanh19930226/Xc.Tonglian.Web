@@ -35,13 +35,9 @@ namespace Tonglian.Sdk.Models.Merchants
         /// 归属机构
         /// </summary>
         public string organid { get; set; }
-        /// <summary>
-        /// 开通产品
-        /// </summary>
-        public string productId { get; set; }
     }
 
-    public class MerchantCreateResponse
+    public class MerchantCreateResponse:BaseResponse
     {
 
     }

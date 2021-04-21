@@ -2,6 +2,7 @@
 @model List<Xc.Tonglian.Web.Models.Domain.Shop>
 
 <div class="pull-out m-t-small">
+
     @if (Model.Count > 0)
     {
         <table class="table table-striped b-t text-small table-bordered">
@@ -19,6 +20,7 @@
                     <th>销售类目</th>
                     <th>运营时间</th>
                     <th>授权令牌</th>
+                    <th>审核状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -38,10 +40,30 @@
                     <td>@item.Categroy</td>
                     <td>@item.Runtime</td>
                     <td>@item.AuthToken</td>
-                    <td>
+                    @if (item.Status == 0)
+                    {
+                        <td>待审核</td>
+                    }
+                    @if (item.Status == 1)
+                    {
+                        <td>审核成功</td>
+                    }
+                    @if (item.Status == 2)
+                    {
+                        <td>审核失败</td>
+                    }
+                <td>
+                    @if (item.Status != (int)Xc.Tonglian.Web.Models.Enums.StatusEnum.Success)
+                    {
+                        <a title="修改" data-src="/Shop/Edit?Id=@item.Id" class="btn btn-success btn-mini" disabled="disabled">修改</a>
+                        <a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini" disabled="disabled">删除</a>
+                    }
+                    else
+                    {
                         <a title="修改" data-src="/Shop/Edit?Id=@item.Id" class="btn btn-success btn-mini">修改</a>
                         <a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini">删除</a>
-                    </td>
+                    }
+                </td>
                 </tr>
                 }
             </tbody>

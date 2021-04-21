@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xc.Tonglian.Web.Models.Domain;
 using Xc.Tonglian.Web.Models.Dto.Shop;
+using Xc.Tonglian.Web.Services;
 
 namespace Xc.Tonglian.Web.Controllers
 {
@@ -14,10 +17,15 @@ namespace Xc.Tonglian.Web.Controllers
     {
         private TonglianDbContext _dbContext;
         private readonly IMapper _mapper;
-        public ShopController(TonglianDbContext dbContext, IMapper mapper)
+        private IMediator _mediator;
+        private IShopService _shopService;
+
+        public ShopController(TonglianDbContext dbContext, IMapper mapper, IMediator mediator,IShopService shopService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _mediator = mediator;
+            _shopService = shopService;
         }
         public ActionResult Index()
         {
@@ -33,7 +41,6 @@ namespace Xc.Tonglian.Web.Controllers
         }
         public IActionResult Add()
         {
-
             return View();
         }
         [HttpPost]
@@ -41,72 +48,62 @@ namespace Xc.Tonglian.Web.Controllers
         {
             TonglianResult result = new TonglianResult();
 
-            //var dtoss = _mapper.Map<Shop>(dto);
+            var res = _shopService.CreateShop(dto);
 
-            //_dbContext.Shops.Add(dtoss);
+            if (res.sid!=null)
+            {
+                _dbContext.Shops.Add(_mapper.Map<Shop>(dto));
 
-            _dbContext.Shops.Add(new Shop()
-            {
-                StId = dto.StId,
-                Platform = dto.Platform,
-                Currency = dto.Currency,
-                Exists = dto.Exists,
-                SellerId = dto.SellerId,
-                Monthamt = dto.Monthamt,
-                Owner = dto.Owner,
-                StoreName = dto.StoreName,
-                Weburl = dto.Weburl,
-                Categroy = dto.Categroy,
-                Runtime = dto.Runtime,
-                AuthToken = dto.AuthToken,
-            });
-            if (_dbContext.SaveChanges()>0)
-            {
-                result.Success("添加成功");
+                if (_dbContext.SaveChanges() > 0)
+                {
+                    result.Success("添加成功");
+                }
+                else
+                {
+                    result.Failed("添加失败");
+                }
             }
-            return Ok(result);
+            else
+            {
+                result.Failed(res.rspinfo);
+            }
+            return Json(result);
         }
 
         public ActionResult Edit(int Id)
         {
             var edit = _dbContext.Shops.Where(p => p.Id == Id).FirstOrDefault();
-            ShopEditDto dto = new ShopEditDto();
-            dto.StId = edit.StId;
-            dto.Platform = edit.Platform;
-            dto.Currency = edit.Currency;
-            dto.Exists = edit.Exists;
-            dto.SellerId = edit.SellerId;
-            dto.Monthamt = edit.Monthamt;
-            dto.Owner = edit.Owner;
-            dto.StoreName = edit.StoreName;
-            dto.Weburl = edit.Weburl;
-            dto.Categroy = edit.Categroy;
-            dto.Runtime = edit.Runtime;
-            dto.AuthToken = edit.AuthToken;
-            return View(dto);
+
+            return View(_mapper.Map<ShopEditDto>(edit));
         }
 
         [HttpPost]
         public IActionResult DoEdit(ShopEditDto dto)
         {
             TonglianResult result = new TonglianResult();
-            var edit = _dbContext.Shops.Where(p => p.Id == dto.Id).FirstOrDefault();
-            edit.StId = dto.StId;
-            edit.Platform = dto.Platform;
-            edit.Currency = dto.Currency;
-            edit.Exists = dto.Exists;
-            edit.SellerId = dto.SellerId;
-            edit.Monthamt = dto.Monthamt;
-            edit.Owner = dto.Owner;
-            edit.StoreName = dto.StoreName;
-            edit.Weburl = dto.Weburl;
-            edit.Categroy = dto.Categroy;
-            edit.Runtime = dto.Runtime;
-            edit.AuthToken = dto.AuthToken;
-            _dbContext.Shops.Update(edit);
-            if (_dbContext.SaveChanges() > 0)
+
+            var res = _shopService.EditShop(dto);
+
+            if (res.sid !=null)
             {
-                result.Success("修改成功");
+                var edit = _dbContext.Shops.Where(p => p.Id == dto.Id).AsNoTracking().FirstOrDefault();
+
+                edit = _mapper.Map<Shop>(dto);
+
+                _dbContext.Shops.Update(edit);
+
+                if (_dbContext.SaveChanges() > 0)
+                {
+                    result.Success("修改成功");
+                }
+                else
+                {
+                    result.Failed("修改失败");
+                }
+            }
+            else
+            {
+                result.Failed(res.rspinfo);
             }
             return Ok(result);
         }
@@ -115,11 +112,18 @@ namespace Xc.Tonglian.Web.Controllers
         {
             TonglianResult result = new TonglianResult();
             var delete = _dbContext.Shops.Where(p => p.Id == Id).FirstOrDefault();
+
             delete.IsDel = true;
+
             _dbContext.Shops.Update(delete);
+
             if (_dbContext.SaveChanges() > 0)
             {
                 result.Success("删除成功");
+            }
+            else
+            {
+                result.Failed("删除失败");
             }
             return Ok(result);
         }

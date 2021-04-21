@@ -55,5 +55,9 @@ namespace Xc.Tonglian.Web.Models.Domain
         /// 授权令牌
         /// </summary>
         public string AuthToken { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public int Status { get; set; }
     }
 }

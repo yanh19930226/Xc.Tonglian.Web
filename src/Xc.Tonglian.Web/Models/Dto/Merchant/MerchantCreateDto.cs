@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xc.Tonglian.Web.Models.Enums;
 
 namespace Xc.Tonglian.Web.Models.Dto.Merchant
 {
@@ -10,7 +11,7 @@ namespace Xc.Tonglian.Web.Models.Dto.Merchant
         /// <summary>
         /// 注册号
         /// </summary>
-        public string RegId { get; set; }
+        public string Mtid { get; set; }
         /// <summary>
         /// 客户号
         /// </summary>
@@ -28,8 +29,8 @@ namespace Xc.Tonglian.Web.Models.Dto.Merchant
         /// </summary>
         public string OrganId { get; set; }
         /// <summary>
-        /// 开通产品
+        /// 待审核
         /// </summary>
-        public string Products { get; set; }
+        public int Status { get; set; } = (int)StatusEnum.Verifing;
     }
 }

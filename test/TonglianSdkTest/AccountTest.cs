@@ -15,7 +15,7 @@ namespace TonglianSdkTest
         private readonly TonglianClient _client;
         public AccountTest()
         {
-            //_client = new TonglianClient("","","", "", "", new Tonglian.Sdk.Models.Config(), EnvEnum.Dev);
+            _client = new TonglianClient("gcpservice", "2C52B53741103B2FB-1GA08-3", "MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEob2LdDlv18Uy/4r0VKW2qjm1rdezGcTHw6RhpL2lbQOJgHQAU2etqQc7IWCywRkMrokFX0nqfDBMrtqBeCZ98A==", "665000000001030", "668000000001074", EnvEnum.Dev);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace TonglianSdkTest
             var accountListRequestModel = new AccountListRequestModel()
             {
                 cusid = "665000000001030",
-                accountNo= "666666",
+                accountNo= "66666677",
                 currency = "CNY",
             };
 
@@ -65,10 +65,10 @@ namespace TonglianSdkTest
             var AccountCreateModel = new AccountCreateModel()
             {
                 cusid = "665000000001030",
-                accountNo = "666666",
+                accountNo = "66666677111",
                 accountName = "yanh",
                 currency = "CNY",
-                nature = "1",
+                nature ="1",
                 country = "CHN",
                 city = "宁波",
                 province= "000943",
@@ -78,6 +78,34 @@ namespace TonglianSdkTest
             };
 
             var result = _client.RequestAsync(new AccountCreateRequest(AccountCreateModel));
+
+            Assert.Equal("", result.rspinfo);
+        }
+
+
+        /// <summary>
+        /// 账号修改
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task accountEdit()
+        {
+            var AccountCreateModel = new AccountEditRequestModel()
+            {
+                cusid = "665000000001030",
+                accountNo = "66666677",
+                accountName = "yanh11",
+                currency = "CNY",
+                nature = "1",
+                country = "CHN",
+                city = "宁波",
+                province = "000943",
+                cardorbook = "02",
+                biccode = "105332041006",
+                addr = "中国建设银行宁波市北仑区支行"
+            };
+
+            var result = _client.RequestAsync(new AccountEditRequest(AccountCreateModel));
 
             Assert.Equal("", result.rspinfo);
         }

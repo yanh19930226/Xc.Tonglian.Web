@@ -37,6 +37,7 @@ namespace Xc.Tonglian.Web
             #endregion
 
             #region MediatR
+            services.AddMediatR(typeof(Startup));
             //services.AddMediatR();
             #endregion
 
@@ -54,7 +55,7 @@ namespace Xc.Tonglian.Web
                  .WithTransientLifetime());
             #endregion
 
-            #region MyRegion
+            #region AutoMapper
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

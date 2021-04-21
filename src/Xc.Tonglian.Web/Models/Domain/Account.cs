@@ -51,5 +51,9 @@ namespace Xc.Tonglian.Web.Models.Domain
         /// 地址
         /// </summary>
         public string Addr { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public int Status { get; set; }
     }
 }

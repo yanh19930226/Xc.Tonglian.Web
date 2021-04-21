@@ -10,7 +10,7 @@
 
     <meta charset="utf-8">
 
-    <title>FBA后台内容管理系统</title>
+    <title>后台内容管理系统</title>
 
     <meta name="description" content="mobile first, app, web app, responsive, admin dashboard, flat, flat ui">
 
@@ -30,8 +30,12 @@
     <link rel="stylesheet" href="/res/sco/scojs.css">
     <link href="/res/css/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="/res/css/landing.css">
-
     <script src="/res/js/jquery.js"></script>
+    <!-- datetimepicker -->
+    <script src="~/lib/datetimepicker/bootstrap-datetimepicker.js"></script>
+    <link href="~/lib/datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="~/lib/datepicker/bootstrap-datepicker.js"></script>
+    <link href="~/lib/datepicker/datepicker3.css" rel="stylesheet" />
     <!-- imageupload -->
     <link href="~/lib/imageupload/1.0/css/imgup.css" rel="stylesheet" />
     <script src="~/lib/imageupload/1.0/js/imgup.js?1=1"></script>
@@ -97,10 +101,11 @@
             <li class="dropdown-submenu">
                 <a resmenu href="#"><i class="icon-list icon-xlarge"></i>Paas管理</a>
                 <ul class="dropdown-menu">
-                    <li><a href="@Url.Content("~/Customer")">客户管理</a></li>
-                    <li><a href="@Url.Content("~/Account")">账户管理</a></li>
-                    <li><a href="@Url.Content("~/Merchant")">商户管理</a></li>
                     <li><a href="@Url.Content("~/Shop")">店铺管理</a></li>
+                    <li><a href="@Url.Content("~/Account")">账户管理</a></li>
+                    <li><a href="@Url.Content("~/Customer")">客户管理</a></li>
+                    <li><a href="@Url.Content("~/Merchant")">商户管理</a></li>
+
                 </ul>
             </li>
         </ul>
@@ -148,7 +153,19 @@
     <script src="/res/js/MainScript.js?1=1"></script>
     <script src="~/res/js/initForm.js"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            $(".datepicker").each(function () {
 
+                $(this).datepicker({
+                    language: 'zh-CN', //语言
+                    autoclose: true, //选择后自动关闭
+                    clearBtn: true,//清除按钮
+                    format: "yyyy-mm-dd"//日期格式
+                });
+            });
+        })
+    </script>
 </body>
 
 </html>

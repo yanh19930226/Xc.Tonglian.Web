@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{61D63A54-347
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6BA8D76E-95FA-4C53-9AF6-36DFF503AB7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tonglian.Sdk", "src\Tonglian.Sdk\Tonglian.Sdk.csproj", "{88928A54-3D41-40FF-8827-5F62BD4E10BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tonglian.Sdk", "src\Tonglian.Sdk\Tonglian.Sdk.csproj", "{88928A54-3D41-40FF-8827-5F62BD4E10BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TonglianSdkTest", "test\TonglianSdkTest\TonglianSdkTest.csproj", "{B68A3B2B-81DF-44F8-B5CE-05CF1B515D98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonglianSdkTest", "test\TonglianSdkTest\TonglianSdkTest.csproj", "{B68A3B2B-81DF-44F8-B5CE-05CF1B515D98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xc.Tonglian.Web", "src\Xc.Tonglian.Web\Xc.Tonglian.Web.csproj", "{381D814F-AE0C-4C76-8107-ABA1AC80A726}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xc.Tonglian.Web", "src\Xc.Tonglian.Web\Xc.Tonglian.Web.csproj", "{381D814F-AE0C-4C76-8107-ABA1AC80A726}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

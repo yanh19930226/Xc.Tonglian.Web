@@ -1,23 +1,30 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xc.Tonglian.Web.Models.Domain;
 using Xc.Tonglian.Web.Models.Dto.Account;
+using Xc.Tonglian.Web.Services;
 
 namespace Xc.Tonglian.Web.Controllers
 {
     public class AccountController : Controller
     {
         private TonglianDbContext _dbContext;
+
         private readonly IMapper _mapper;
-        public AccountController(TonglianDbContext dbContext, IMapper mapper)
+
+        private IAccountService _accountService;
+
+        public AccountController(TonglianDbContext dbContext, IMapper mapper, IAccountService accountService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _accountService = accountService;
         }
         public ActionResult Index()
         {
@@ -33,83 +40,85 @@ namespace Xc.Tonglian.Web.Controllers
         }
         public IActionResult Add()
         {
-
             return View();
         }
         [HttpPost]
         public IActionResult DoAdd(AccountCreateDto dto)
         {
             TonglianResult result = new TonglianResult();
-            _dbContext.Accounts.Add(new Account()
+
+            var res = _accountService.CreateAccount(dto);
+
+            if (res.rspcode=="0000")
             {
-                CusId = dto.CusId,
-                AccountNo = dto.AccountNo,
-                Currency = dto.Currency,
-                AccountName = dto.AccountName,
-                Nature = dto.Nature,
-                Country = dto.Country,
-                Province = dto.Province,
-                City = dto.City,
-                CardorBook = dto.CardorBook,
-                BicCode = dto.BicCode,
-                Addr = dto.Addr
-            });
-            if (_dbContext.SaveChanges() > 0)
-            {
-                result.Success("添加成功");
+                _dbContext.Accounts.Add(_mapper.Map<Account>(dto));
+
+                if (_dbContext.SaveChanges() > 0)
+                {
+                    result.Success("添加成功");
+                }
+                else
+                {
+                    result.Failed("添加失败");
+                }
             }
+            else
+            {
+                result.Failed(res.rspinfo);
+            }
+           
             return Ok(result);
         }
 
         public ActionResult Edit(int Id)
         {
             var edit = _dbContext.Accounts.Where(p => p.Id == Id).FirstOrDefault();
-            AccountEditDto dto = new AccountEditDto();
-            dto.Id = edit.Id;
-            dto.CusId = edit.CusId;
-            dto.AccountNo = edit.AccountNo;
-            dto.Currency = edit.Currency;
-            dto.AccountName = edit.AccountName;
-            dto.Nature = edit.Nature;
-            dto.Country = edit.Country;
-            dto.Province = edit.Province;
-            dto.City = edit.City;
-            dto.CardorBook = edit.CardorBook;
-            dto.BicCode = edit.BicCode;
-            dto.Addr = edit.Addr;
-            return View(dto);
+
+            return View(_mapper.Map<AccountEditDto>(edit));
+            
         }
 
         [HttpPost]
         public IActionResult DoEdit(AccountEditDto dto)
         {
             TonglianResult result = new TonglianResult();
-            var edit = _dbContext.Accounts.Where(p => p.Id == dto.Id).FirstOrDefault();
-            edit.CusId = dto.CusId;
-            edit.AccountNo = dto.AccountNo;
-            edit.Currency = dto.Currency;
-            edit.AccountName = dto.AccountName;
-            edit.Nature = dto.Nature;
-            edit.Country = dto.Country;
-            edit.Province = dto.Province;
-            edit.City = dto.City;
-            edit.CardorBook = dto.CardorBook;
-            edit.BicCode = dto.BicCode;
-            edit.Addr = dto.Addr;
-            _dbContext.Accounts.Update(edit);
-            if (_dbContext.SaveChanges() > 0)
+
+            var res = _accountService.EditAccount(dto);
+
+            if (res.rspcode == "0000")
             {
-                result.Success("修改成功");
+                var edit = _dbContext.Accounts.Where(p => p.Id == dto.Id).AsNoTracking().FirstOrDefault();
+
+                edit = _mapper.Map<Account>(dto);
+
+                _dbContext.Accounts.Update(edit);
+
+                if (_dbContext.SaveChanges() > 0)
+                {
+                    result.Success("修改成功");
+                }
+                else
+                {
+                    result.Failed("修改失败");
+                }
             }
+            else
+            {
+                result.Failed(res.rspinfo);
+            }
+           
             return Ok(result);
         }
 
         public IActionResult Delete(int Id)
         {
             TonglianResult result = new TonglianResult();
+
             var delete = _dbContext.Accounts.Where(p => p.Id == Id).FirstOrDefault();
             delete.IsDel = true;
+
             _dbContext.Accounts.Update(delete);
+
             if (_dbContext.SaveChanges() > 0)
             {
                 result.Success("删除成功");

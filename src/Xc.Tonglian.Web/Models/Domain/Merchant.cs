@@ -10,7 +10,7 @@ namespace Xc.Tonglian.Web.Models.Domain
         /// <summary>
         /// 注册号
         /// </summary>
-        public string RegId { get; set; }
+        public string Mtid { get; set; }
         /// <summary>
         /// 客户号
         /// </summary>
@@ -28,8 +28,8 @@ namespace Xc.Tonglian.Web.Models.Domain
         /// </summary>
         public string OrganId { get; set; }
         /// <summary>
-        /// 开通产品
+        /// 状态
         /// </summary>
-        public string Products { get; set; }
+        public int Status { get; set; }
     }
 }

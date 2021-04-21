@@ -17,7 +17,16 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">所属平台</label>
                     <div class="col-lg-8">
-                        <input asp-for="Platform" class="bg-focus form-control parsley-validated" />
+                        <select asp-for="Platform" class="bg-focus form-control parsley-validated">
+                            <option value="0101">亚马逊美国站  (暂不支持)</option>
+                            <option value="0102">亚马逊日本站  (暂不支持)</option>
+                            <option value="0103">亚马逊欧洲站  (暂不支持)</option>
+                            <option value="0104">亚马逊英国站  (暂不支持)</option>
+                            <option value="9101">货物贸易自建站</option>
+                            <option value="9201">服务贸易自建站  (暂不支持)</option>
+                            <option value="0701">Qoo10  (暂不支持)</option>
+                            <option value="0601">速卖通  (暂不支持)</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -30,8 +39,10 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">有无店铺</label>
                     <div class="col-lg-8">
-                        <input asp-for="Exists" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="Exists" class="text-danger"> </span>
+                        <select asp-for="Exists" class="bg-focus form-control parsley-validated">
+                            <option value="01">新店</option>
+                            <option value="02">已开立</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -75,14 +86,25 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">销售类目</label>
                     <div class="col-lg-8">
-                        <input asp-for="Categroy" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="Categroy" class="text-danger"> </span>
+                        <select asp-for="Categroy" class="bg-focus form-control parsley-validated">
+                            <option value="0001">汽配及工业产品</option>
+                            <option value="0002">美妆、个护健康</option>
+                            <option value="0003">服装、鞋帽及配饰</option>
+                            <option value="0004">数码电器及其配件</option>
+                            <option value="0005">家具、花园及宠物用品</option>
+                            <option value="0006">办公、学习用品</option>
+                            <option value="0007">运动&户外用品</option>
+                            <option value="0008">工具、家装用品</option>
+                            <option value="0009">火机烟具</option>
+                            <option value="0010">礼品、工艺品</option>
+                            <option value="0011">-其他</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">运营时间</label>
                     <div class="col-lg-8">
-                        <input asp-for="Runtime" class="bg-focus form-control parsley-validated" />
+                        <input type="datetime" asp-for="Runtime" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="bg-focus input-small inline form-control datepicker parsley-validated " autocomplete="off" data-date-format="yyyy-mm-dd" placeholder="查询结束时间">
                         <span asp-validation-for="Runtime" class="text-danger"> </span>
                     </div>
                 </div>
@@ -90,7 +112,7 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">授权令牌</label>
                     <div class="col-lg-8">
-                        <input asp-for="AuthToken" class="bg-focus form-control parsley-validated" />
+                        <input asp-for="AuthToken" class="bg-focus form-control parsley-validated"  placeholder="平台为亚马逊则必填"/>
                         <span asp-validation-for="AuthToken" class="text-danger"> </span>
                     </div>
                 </div>
@@ -109,16 +131,17 @@
     </div>
 </div>
 <script>
-
-    var completed = function (xhr) {
-        if (xhr.responseText == "true") {
-            $.tipsOk("操作成功！");
+    completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.isSuccess) {
+            console.log(xhr);
+            $.tipsOk(rv.message);
             window.location = window.location;
         } else {
-            $.tipsError("修改失败");
+            $.tipsError(rv.message);
         }
     };
     $(function () {
-        $("#ScrapTime").each(function (p, obj) { $(obj).datepicker(); });
+        $("#Runtime").each(function (p, obj) { $(obj).datepicker(); });
     })
 </script>

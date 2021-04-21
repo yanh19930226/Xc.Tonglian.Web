@@ -1,99 +1,376 @@
 ﻿
-@*@model Tonglian.Sdk.Models.Accounts.AccountCreateRequest
-@{
-    Layout = null;
-}
+@model Xc.Tonglian.Web.Models.Dto.Customer.CustomerCreateDto
 <div class="row">
-    <div class="col-lg-12">
         <section class="panel">
-            <script>
-                completed = function (xhr) {
-                    debugger;
-                    if (xhr.responseText == "true") {
-                        $.tipsOk("操作成功！");
-                        setTimeout(function () {
-                            window.location = window.location;
-                        }, 1500);
-                    } else {
-                        $.tipsError("修改失败");
-                    }
-                };
-            </script>
-            <form class="form-horizontal" data-ajax="true" data-ajax-complete="completed" asp-action="DoAdd" id="newform" asp-controller="SysShopAndAdvertisement" data-ajax-method="post">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">cusid</label>
-                    <div class="col-lg-8">
-                        <input asp-for="cusid" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="cusid" class="text-danger"> </span>
+            <form class="form-horizontal" data-ajax="true" data-ajax-complete="completed" asp-action="DoAdd" id="newform" asp-controller="Customer" data-ajax-method="post">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">跟踪号</label>
+                        <div class="col-lg-8">
+                            <input asp-for="CtId" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="CtId" class="text-danger"> </span>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">accountNo</label>
-                    <div class="col-lg-8">
-                        <input asp-for="accountNo" class="bg-focus form-control parsley-validated" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">currency</label>
-                    <div class="col-lg-8">
-                        <input asp-for="currency" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="currency" class="text-danger"> </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">accountName</label>
-                    <div class="col-lg-8">
-                        <input asp-for="accountName" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="accountName" class="text-danger"> </span>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">客户名</label>
+                        <div class="col-lg-8">
+                            <input asp-for="CusName" class="bg-focus form-control parsley-validated" />
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">nature</label>
-                    <div class="col-lg-8">
-                        <input asp-for="nature" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="nature" class="text-danger"> </span>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">注册地址</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Address" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Address" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">所属分公司</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Belongbranch" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Belongbranch" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">所属地区</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Areacode" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Areacode" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">客户性质</label>
+                        <div class="col-lg-8">
+                            <select asp-for="Flag" class="bg-focus form-control parsley-validated">
+                                <option value="1">企业法人</option>
+                                <option value="2">个体工商户</option>
+                                <option value="3">个人用户</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">country</label>
-                    <div class="col-lg-8">
-                        <input asp-for="country" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="country" class="text-danger"> </span>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">联系电话</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Tel" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Tel" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">客户分类</label>
+                        <div class="col-lg-8">
+                            <select asp-for="Cuskind" class="bg-focus form-control parsley-validated">
+                                <option value="1">电子商务平台经营者</option>
+                                <option value="2">电子商务平台内经营者</option>
+                                <option value="3">其他电子商务经营者</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">客户业务</label>
+                        <div class="col-lg-8">
+                            <select asp-for="Businesskind" class="bg-focus form-control parsley-validated">
+                                <option value="1">电商货物贸易</option>
+                                <option value="2">留学服务贸易</option>
+                                <option value="3">其他货物贸易</option>
+                                <option value="3">其他服务贸易</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">是否三证合</label>
+                        <div class="col-lg-8">
+                            <select asp-for="Threcertflag" class="bg-focus form-control parsley-validated">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">province</label>
-                    <div class="col-lg-8">
-                        <input asp-for="province" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="province" class="text-danger"> </span>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">社会信用证代码</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Creditcode" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Creditcode" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">组织机构代码</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Organcode" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Organcode" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">营业执照代码</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Buslicense" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Buslicense" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">法人代表证件号</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Legalidno" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Legalidno" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">法人姓名</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Legal" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Legal" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">法人身份证有效期</label>
+                        <div class="col-lg-8">
+                            <input type="datetime" asp-for="Legalidexpire" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="bg-focus form-control parsley-validated " autocomplete="off" data-date-format="yyyy-mm-dd">
+                            <span asp-validation-for="Legalidexpire" class="text-danger"> </span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">city</label>
-                    <div class="col-lg-8">
-                        <input asp-for="city" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="city" class="text-danger"> </span>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">经营场所</label>
+                        <div class="col-lg-8">
+                            <select asp-for="Businessplace" class="bg-focus form-control parsley-validated">
+                                <option value="1">独立门店、连锁店</option>
+                                <option value="2">综合卖场</option>
+                                <option value="3">批发市场</option>
+                                <option value="4">其它</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">交易网站国家/地区</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Websitecountry" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Websitecountry" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">交易网站名称</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Website" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Website" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">跨境交易地址</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Tradingplatform" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Tradingplatform" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">员工人数</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Stafftotal" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Stafftotal" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">合同有效期</label>
+                        <div class="col-lg-8">
+                            <input type="datetime" asp-for="Protocolexpire" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="bg-focus form-control parsley-validated " autocomplete="off" data-date-format="yyyy-mm-dd">
+                            <span asp-validation-for="Protocolexpire" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">行业</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Tlinstcode" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Tlinstcode" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">股东姓名</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Holdername" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Holdername" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">股东身份证件号码</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Holderidno" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Holderidno" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">股东身份证件有效期</label>
+                        <div class="col-lg-8">
+
+                            <input type="datetime" asp-for="Holderexpire" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="bg-focus form-control parsley-validated " autocomplete="off" data-date-format="yyyy-mm-dd">
+                            <span asp-validation-for="Holderexpire" class="text-danger"> </span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">受益人姓名</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Bnfname" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Bnfname" class="text-danger"> </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">受益人身份证件号码</label>
+                        <div class="col-lg-8">
+                            <input asp-for="Bnfidno" class="bg-focus form-control parsley-validated" />
+                            <span asp-validation-for="Bnfidno" class="text-danger"> </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">受益人身份证件有效期</label>
+                        <div class="col-lg-8">
+                            <input type="datetime" asp-for="Bnfexpire" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="bg-focus form-control parsley-validated " autocomplete="off" data-date-format="yyyy-mm-dd">
+                            <span asp-validation-for="Bnfexpire" class="text-danger"> </span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-6">
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">受益所有人地址</label>
+                            <div class="col-lg-8">
+                                <input asp-for="Bnfaddress" class="bg-focus form-control parsley-validated" />
+                                <span asp-validation-for="Bnfaddress" class="text-danger"> </span>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="col-6">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">邮箱</label>
+                            <div class="col-lg-8">
+                                <input asp-for="Legalemail" class="bg-focus form-control parsley-validated" />
+                                <span asp-validation-for="Legalemail" class="text-danger"> </span>
+                            </div>
+                        </div>
+                </div>
+
                 <div class="form-group">
-
-                    <div class="col-lg-9 col-offset-3">
-
+                    <div class="col-lg-12 col-offset-6">
                         <button type="submit" class="btn btn-primary">保存</button>
-                        <a type="submit" href="/SysShopAndAdvertisement" class="btn btn-default">返回</a>
+                        <a type="submit" href="/Customer" class="btn btn-default">返回</a>
                     </div>
 
                 </div>
             </form>
         </section>
-    </div>
 </div>
+
 <script>
+    completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.isSuccess) {
+            console.log(xhr);
+            $.tipsOk(rv.message);
+            window.location = window.location;
+        } else {
+            $.tipsError(rv.message);
+        }
+    };
+
     $(function () {
-        $("#ScrapTime").each(function (p, obj) { $(obj).datepicker(); });
+        $("#Legalidexpire").each(function (p, obj) { $(obj).datepicker(); });
+        $("#Protocolexpire").each(function (p, obj) { $(obj).datepicker(); });
+        $("#Holderexpire").each(function (p, obj) { $(obj).datepicker(); });
+        $("#Bnfexpire").each(function (p, obj) { $(obj).datepicker(); });
     })
-</script>*@
+</script>

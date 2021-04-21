@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tonglian.Sdk;
 using Tonglian.Sdk.Models.Shops;
+using Xc.Tonglian.Web.Models.Dto.Shop;
 
 namespace Xc.Tonglian.Web.Services.Impl
 {
@@ -14,19 +15,41 @@ namespace Xc.Tonglian.Web.Services.Impl
         {
             _client = client;
         }
-        public void CreateShop()
+        public ShopCreateResponse CreateShop(ShopCreateDto dto)
         {
-            throw new NotImplementedException();
+            var createShop = new ShopCreateReqeustModel()
+            {
+                stid = dto.StId,
+                platform = dto.Platform,
+                currency = dto.Currency,
+                exists = dto.Exists,
+                sellerid = dto.SellerId,
+                monthamt = dto.Monthamt,
+                owner = dto.Owner,
+                storename = dto.StoreName,
+                weburl = dto.Weburl,
+                categroy = dto.Categroy,
+            };
+            return _client.RequestAsync(new ShopCreateReqeust(createShop));
         }
 
-        public ShopListResponse GetShopList()
+        public ShopEditResponse EditShop(ShopEditDto dto)
         {
-            var req = new ShopListRequestModel()
+            var ShopEditRequest = new ShopEditRequestModel()
             {
-                stid = "202104191800",
+                stid = dto.StId,
+                platform = dto.Platform,
+                currency = dto.Currency,
+                exists = dto.Exists,
+                sellerid = dto.SellerId,
+                monthamt = dto.Monthamt,
+                owner = dto.Owner,
+                storename = dto.StoreName,
+                weburl = dto.Weburl,
+                categroy = dto.Categroy,
             };
 
-            return _client.RequestAsync(new ShopListRequest(req));
+            return _client.RequestAsync(new ShopEditRequest(ShopEditRequest));
         }
     }
 }

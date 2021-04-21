@@ -16,7 +16,7 @@ namespace Xc.Tonglian.Web.Controllers
         }
         public IActionResult Index()
         {
-            var res = _shopService.GetShopList();
+            //var res = _shopService.GetShopList();
 
             return View();
         }

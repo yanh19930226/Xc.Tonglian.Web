@@ -18,29 +18,42 @@
                     <th>卡折类型</th>
                     <th>当地行号</th>
                     <th>地址</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.CusId</td>
-                        <td>@item.AccountNo</td>
-                        <td>@item.Currency</td>
-                        <td>@item.AccountName</td>
-                        <td>@item.Nature</td>
-                        <td>@item.Country</td>
-                        <td>@item.Province</td>
-                        <td>@item.City</td>
-                        <td>@item.CardorBook</td>
-                        <td>@item.BicCode</td>
-                        <td>@item.Addr</td>
-                        <td>
-                            <a title="修改" data-src="/Account/Edit?Id=@item.Id" class="btn btn-success btn-mini">修改</a>
-                            <a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini">删除</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@item.CusId</td>
+                    <td>@item.AccountNo</td>
+                    <td>@item.Currency</td>
+                    <td>@item.AccountName</td>
+                    <td>@item.Nature</td>
+                    <td>@item.Country</td>
+                    <td>@item.Province</td>
+                    <td>@item.City</td>
+                    <td>@item.CardorBook</td>
+                    <td>@item.BicCode</td>
+                    <td>@item.Addr</td>
+                    @if (item.Status == 0)
+                    {
+                        <td>待审核</td>
+                    }
+                    @if (item.Status == 1)
+                    {
+                        <td>审核成功</td>
+                    }
+                    @if (item.Status == 2)
+                    {
+                        <td>审核失败</td>
+                    }
+                    <td>
+                        <a title="修改" data-src="/Account/Edit?Id=@item.Id" class="btn btn-success btn-mini">修改</a>
+                        <a onclick="Delete(@item.Id)" class="btn btn-danger btn-mini">删除</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

@@ -77,6 +77,10 @@ namespace Tonglian.Sdk
             rq.AddHeader("X-AGCP-Send", request.Header.XAGCPSend);
             rq.AddHeader("X-AGCP-Auth", Signature);
 
+            var baseUrl = GetApiBaseUrl() + "/gcpapi" + request.Uri + "?authcus=" + request.Config.authcus + "&merid=" + request.Config.merid + "&reqid=" + request.Config.reqid;
+
+            var json = JsonConvert.SerializeObject(request.Parameters);
+
             rq.AddJsonBody(JsonConvert.SerializeObject(request.Parameters));
 
             var httpResponse = client.Post(rq).Content;

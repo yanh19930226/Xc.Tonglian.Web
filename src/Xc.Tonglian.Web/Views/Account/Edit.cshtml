@@ -39,8 +39,10 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">账户类型</label>
                     <div class="col-lg-8">
-                        <input asp-for="Nature" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="Nature" class="text-danger"> </span>
+                        <select asp-for="Nature" class="bg-focus form-control parsley-validated">
+                            <option value="1">对公</option>
+                            <option value="0">对私</option>
+                        </select>
                     </div>
                 </div>
 
@@ -70,8 +72,14 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">卡折类型</label>
                     <div class="col-lg-8">
-                        <input asp-for="CardorBook" class="bg-focus form-control parsley-validated" />
-                        <span asp-validation-for="CardorBook" class="text-danger"> </span>
+                        <select asp-for="CardorBook" class="bg-focus form-control parsley-validated">
+                            <option value="00">借记卡</option>
+                            <option value="01">存折</option>
+                            <option value="02">信用卡</option>
+                            <option value="03">准贷记卡</option>
+                            <option value="04">预消费卡</option>
+                            <option value="05">境外卡</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -102,15 +110,14 @@
     </div>
 </div>
 <script>
-    var completed = function (xhr) {
-        debugger;
-        if (xhr.responseText == "true") {
-            $.tipsOk("操作成功！");
-            setTimeout(function () {
-                window.location = window.location;
-            }, 1500);
+    completed = function (xhr) {
+        var rv = JSON.parse(xhr.responseText);
+        if (rv.isSuccess) {
+            console.log(xhr);
+            $.tipsOk(rv.message);
+            window.location = window.location;
         } else {
-            $.tipsError("修改失败");
+            $.tipsError(rv.message);
         }
     };
 
