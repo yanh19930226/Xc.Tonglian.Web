@@ -46,7 +46,7 @@ namespace TonglianSdkTest
             var accountListRequestModel = new AccountListRequestModel()
             {
                 cusid = "665000000001030",
-                accountNo= "66666677",
+                accountNo= "666666771112223",
                 currency = "CNY",
             };
 
@@ -65,7 +65,7 @@ namespace TonglianSdkTest
             var AccountCreateModel = new AccountCreateModel()
             {
                 cusid = "665000000001030",
-                accountNo = "66666677111",
+                accountNo = "666666771112223",
                 accountName = "yanh",
                 currency = "CNY",
                 nature ="1",
@@ -93,8 +93,8 @@ namespace TonglianSdkTest
             var AccountCreateModel = new AccountEditRequestModel()
             {
                 cusid = "665000000001030",
-                accountNo = "66666677",
-                accountName = "yanh11",
+                accountNo = "666666771112223",
+                accountName = "yanh1111",
                 currency = "CNY",
                 nature = "1",
                 country = "CHN",

@@ -25,8 +25,8 @@ namespace TonglianSdkTest
         {
             var MerchantListRequestModel = new MerchantListRequestModel()
             {
-                mtid = "11111122",
-                merid= "668000000001074"
+                mtid = "202104221436",
+                //merid= "668000000001074"
             };
 
             var result = _client.RequestAsync(new MerchantListRequest(MerchantListRequestModel));
@@ -43,7 +43,7 @@ namespace TonglianSdkTest
         {
             var merchantCreateModel = new MerchantCreateRequestModel()
             {
-                mtid="11111122",
+                mtid="202104221436",
                 cusid = "665000000001030",
                 mername="yanh",
                 areacode= "CHN",
