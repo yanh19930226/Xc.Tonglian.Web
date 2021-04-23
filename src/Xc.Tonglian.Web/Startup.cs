@@ -1,7 +1,9 @@
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Tonglian.Sdk;
+using Xc.Tonglian.Web.Models.Domain;
 
 namespace Xc.Tonglian.Web
 {
@@ -57,8 +60,26 @@ namespace Xc.Tonglian.Web
 
             #region AutoMapper
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            #endregion
+
+            #region Identity认证授权相关
+
+            //添加Identity
+            services.AddIdentity<User, UserRole>().AddEntityFrameworkStores<TonglianDbContext>()
+                .AddDefaultTokenProviders();
+
+            //修改默认严格密码模式
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                        .AddCookie();
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Home/Login");
+
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -80,6 +101,10 @@ namespace Xc.Tonglian.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+
+            //添加认证授权
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

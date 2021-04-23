@@ -3,40 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Xc.Tonglian.Web.Models.Domain
+namespace Xc.Tonglian.Web.Models.Dto.UserConfig
 {
-    public class UserConfig : Entity
+    public class UserConfigEditDto
     {
         /// <summary>
-        /// SecretId
+        /// 通联SecretId
         /// </summary>
         public string SecretId { get; set; }
         /// <summary>
-        /// SecretKey
+        /// 通联SecretKey
         /// </summary>
         public string SecretKey { get; set; }
         /// <summary>
-        /// Authcus
+        /// 客户号
         /// </summary>
         public string Authcus { get; set; }
         /// <summary>
-        /// MerId
+        /// 商户号
         /// </summary>
         public string MerId { get; set; }
         /// <summary>
-        /// PublicKey
+        /// 公钥
         /// </summary>
         public string PublicKey { get; set; }
         /// <summary>
-        /// PrivateKey
+        ///私钥
         /// </summary>
         public string PrivateKey { get; set; }
-        /// <summary>
-        /// 用户
-        /// </summary>
-        public long UserId { get; set; }
-
-        public virtual User User { get; set; }
-
     }
 }

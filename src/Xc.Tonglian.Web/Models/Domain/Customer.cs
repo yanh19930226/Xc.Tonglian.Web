@@ -147,5 +147,11 @@ namespace Xc.Tonglian.Web.Models.Domain
         /// 状态
         /// </summary>
         public int Status { get; set; }
+        /// <summary>
+        /// 用户
+        /// </summary>
+        public long UserId { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

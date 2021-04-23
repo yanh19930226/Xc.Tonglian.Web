@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ using Xc.Tonglian.Web.Services;
 
 namespace Xc.Tonglian.Web.Controllers
 {
+
+    [Authorize]
     public class AccountController : Controller
     {
         private TonglianDbContext _dbContext;
@@ -26,6 +29,7 @@ namespace Xc.Tonglian.Web.Controllers
             _mapper = mapper;
             _accountService = accountService;
         }
+
         public ActionResult Index()
         {
             return View();

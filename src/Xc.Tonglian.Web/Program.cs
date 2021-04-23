@@ -11,9 +11,15 @@ namespace Xc.Tonglian.Web
 {
     public class Program
     {
+
+
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+           CreateHostBuilder(args).Build().MigrateDbContext<TonglianDbContext>((context, service) => {
+                new TonglianDbContextSeed().SeedAsync(context, service).Wait();
+            }).Run();
+
+           
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

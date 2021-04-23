@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using Xc.Tonglian.Web.Services;
 
 namespace Xc.Tonglian.Web.Controllers
 {
+    [Authorize]
     public class ShopController : Controller
     {
         private TonglianDbContext _dbContext;
