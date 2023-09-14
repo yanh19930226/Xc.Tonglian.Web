@@ -44,28 +44,50 @@ namespace Xc.Tonglian.Web.Controllers
         {
             TonglianResult result = new TonglianResult();
 
-            var res = _merchantService.CreateMerchant(dto);
+            //var res = _merchantService.CreateMerchant(dto);
 
-            if (res.rspcode == "0000")
+            //if (res.rspcode == "0000")
+            //{
+            //    _dbContext.Merchants.Add(_mapper.Map<Merchant>(dto));
+
+            //    if (_dbContext.SaveChanges() > 0)
+            //    {
+            //        result.Success("添加成功");
+            //    }
+            //    else
+            //    {
+            //        result.Failed("添加失败");
+            //    }
+            //}
+            //else
+            //{
+            //    result.Failed(res.rspinfo);
+            //}
+
+            var map = _mapper.Map<Merchant>(dto);
+
+            map.UserId = 1;
+
+            try
             {
-                _dbContext.Merchants.Add(_mapper.Map<Merchant>(dto));
+                _dbContext.Merchants.Add(map);
+                
+            }
+            catch (Exception ex)
+            {
 
-                if (_dbContext.SaveChanges() > 0)
-                {
-                    result.Success("添加成功");
-                }
-                else
-                {
-                    result.Failed("添加失败");
-                }
+                throw ex;
+            }
+            //_dbContext.Merchants.Add(_mapper.Map<Merchant>(dto));
+            var res = _dbContext.SaveChanges();
+            if (res > 0)
+            {
+                result.Success("添加成功");
             }
             else
             {
-                result.Failed(res.rspinfo);
+                result.Failed("添加失败");
             }
-
-            _dbContext.Merchants.Add(_mapper.Map<Merchant>(dto));
-           
             
             return Ok(result);
 
@@ -83,30 +105,45 @@ namespace Xc.Tonglian.Web.Controllers
         {
             TonglianResult result = new TonglianResult();
 
-            var res = _merchantService.EditMerchant(dto);
+            //var res = _merchantService.EditMerchant(dto);
 
-            if (res.rspcode == "0000")
+            //if (res.rspcode == "0000")
+            //{
+            //    var edit = _dbContext.Merchants.Where(p => p.Id == dto.Id).AsNoTracking().FirstOrDefault();
+
+            //    edit = _mapper.Map<Merchant>(dto);
+
+            //    _dbContext.Merchants.Update(edit);
+
+            //    if (_dbContext.SaveChanges() > 0)
+            //    {
+            //        result.Success("修改成功");
+            //    }
+            //    else
+            //    {
+            //        result.Failed("修改失败");
+            //    }
+            //}
+            //else
+            //{
+            //    result.Failed(res.rspinfo);
+            //}
+
+            var edit = _dbContext.Merchants.Where(p => p.Id == dto.Id).AsNoTracking().FirstOrDefault();
+
+            edit = _mapper.Map<Merchant>(dto);
+
+            _dbContext.Merchants.Update(edit);
+
+            if (_dbContext.SaveChanges() > 0)
             {
-                var edit = _dbContext.Merchants.Where(p => p.Id == dto.Id).AsNoTracking().FirstOrDefault();
-
-                edit = _mapper.Map<Merchant>(dto);
-
-                _dbContext.Merchants.Update(edit);
-
-                if (_dbContext.SaveChanges() > 0)
-                {
-                    result.Success("修改成功");
-                }
-                else
-                {
-                    result.Failed("修改失败");
-                }
+                result.Success("修改成功");
             }
             else
             {
-                result.Failed(res.rspinfo);
+                result.Failed("修改失败");
             }
-            
+
             return Ok(result);
         }
 

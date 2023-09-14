@@ -82,7 +82,7 @@
         $.confirm("您确定要删除吗？", function () {
              $.ajax({
                 type: "GET",
-                 url: "@Url.Action("Delete", "Shop")?Id=" + id,
+                url: "@Url.Action("Delete", "Shop")?Id=" + id,
                 success: function (data) {
                     if (data) {
                         $.tipsOk("操作成功!");

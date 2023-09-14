@@ -44,13 +44,13 @@ namespace Xc.Tonglian.Web
             //services.AddMediatR();
             #endregion
 
-            #region 通联客户端注入
+            #region 
             services.Configure<TonglianConfig>(Configuration.GetSection("TonglianConfig"));
             var settings = services.BuildServiceProvider().GetService<IOptions<TonglianConfig>>().Value;
             services.AddSingleton(new TonglianClient(settings.ServiceName, settings.SecretId, settings.SecretKey, settings.Authcus, settings.MerId, settings.IsDev ? EnvEnum.Dev : EnvEnum.Prod));
             #endregion
 
-            #region Service批量注入
+            #region Service
             services.Scan(scan => scan
                  .FromAssemblyOf<Startup>()
                  .AddClasses()
@@ -63,13 +63,13 @@ namespace Xc.Tonglian.Web
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             #endregion
 
-            #region Identity认证授权相关
+            #region Identity
 
-            //添加Identity
+           
             services.AddIdentity<User, UserRole>().AddEntityFrameworkStores<TonglianDbContext>()
                 .AddDefaultTokenProviders();
 
-            //修改默认严格密码模式
+         
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireLowercase = false;
@@ -101,9 +101,7 @@ namespace Xc.Tonglian.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
-
-            //添加认证授权
+            
             app.UseAuthentication();
 
             app.UseAuthorization();
